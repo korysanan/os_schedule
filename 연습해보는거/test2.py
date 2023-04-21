@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from FCFS_Scheduling import FCFS
+from 연습해보는거.FCFS_Scheduling import FCFS
 
 class MyWindow(QtWidgets.QMainWindow):
     def __init__(self):
