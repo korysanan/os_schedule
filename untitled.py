@@ -9,8 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QGroupBox, QGridLayout, QVBoxLayout
-
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem, QGroupBox, QGridLayout, QVBoxLayout, QMessageBox
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -425,6 +424,9 @@ class Ui_MainWindow(object):
         at = self.lineEdit_2.text()
         workload = self.lineEdit_3.text()
 
+        if not all([processor_name, at, workload]):
+            return
+                
         # 테이블 위젯에 행 추가
         row_position = self.tableWidget_2.rowCount()
         self.tableWidget_2.insertRow(row_position)
