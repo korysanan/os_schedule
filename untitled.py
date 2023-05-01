@@ -185,6 +185,7 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.groupBox_5)
         self.pushButton.setGeometry(QtCore.QRect(260, 10, 91, 51))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton.clicked.connect(self.cacul)        
         self.comboBox = QtWidgets.QComboBox(self.groupBox_5)
         self.comboBox.setGeometry(QtCore.QRect(100, 10, 131, 22))
         self.comboBox.setObjectName("comboBox")
@@ -420,6 +421,7 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "Add"))
 
     def add_row(self):
+        global processor_name, at, workload, row_position
         processor_name = self.lineEdit.text()
         at = self.lineEdit_2.text()
         workload = self.lineEdit_3.text()
@@ -440,6 +442,45 @@ class Ui_MainWindow(object):
         self.lineEdit.clear()
         self.lineEdit_2.clear()
         self.lineEdit_3.clear()
+
+    def cacul(self) :
+        # Calculate FCFS values
+        if row_position == 0:
+            wt = 0
+            tt = int(workload)
+            ntt = 1
+        else:
+            previous_row = row_position - 1
+            previous_tt = int(self.tableWidget_3.item(previous_row, 4).text())
+            previous_at = int(self.tableWidget_3.item(previous_row, 1).text())
+            previous_bt = int(self.tableWidget_3.item(previous_row, 2).text())
+
+            #item = self.tableWidget_3.item(previous_row, 4)
+            #if item is not None:
+            #    previous_tt = int(item.text())
+
+            #item_2 = self.tableWidget_3.item(previous_row, 1)
+            #if item_2 is not None:
+            #    previous_at = int(item_2.text())                
+            #item_3 = self.tableWidget_3.item(previous_row, 2)
+            #if item_3 is not None:
+            #    previous_bt = int(item_3.text())         
+            current_at = int(at)
+            if current_at > previous_tt:
+                wt = 0
+            else:
+                wt = previous_tt - current_at
+            tt = wt + int(workload)
+            ntt = tt / int(workload)
+
+        # Add calculated values to FCFS table
+        self.tableWidget_3.insertRow(row_position)
+        self.tableWidget_3.setItem(row_position, 0, QTableWidgetItem(processor_name))
+        self.tableWidget_3.setItem(row_position, 1, QTableWidgetItem(at))
+        self.tableWidget_3.setItem(row_position, 2, QTableWidgetItem(workload))
+        self.tableWidget_3.setItem(row_position, 3, QTableWidgetItem(str(wt)))
+        self.tableWidget_3.setItem(row_position, 4, QTableWidgetItem(str(tt)))
+        self.tableWidget_3.setItem(row_position, 5, QTableWidgetItem(str(ntt)))        
 
 if __name__ == "__main__":
     import sys

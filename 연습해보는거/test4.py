@@ -41,6 +41,7 @@ class MainWindow(QWidget):
 
     def add_process(self):
         # Get input values from line edits
+        global process_name, arrival_time, workload, row_position
         process_name = self.process_name_edit.text()
         arrival_time = self.arrival_time_edit.text()
         workload = self.workload_edit.text()
@@ -52,6 +53,7 @@ class MainWindow(QWidget):
         self.process_table.setItem(row_position, 1, QTableWidgetItem(arrival_time))
         self.process_table.setItem(row_position, 2, QTableWidgetItem(workload))
 
+    def cacul(self) :
         # Calculate FCFS values
         if row_position == 0:
             wt = 0
