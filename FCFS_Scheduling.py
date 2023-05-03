@@ -10,17 +10,17 @@ def FCFS(n, processes) :
             completion_time[i] = processes[i][1] + processes[i][2]
         else:
             completion_time[i] = completion_time[i-1] + processes[i][2]
-        # 대기 시간
+
         waiting_time[i] = completion_time[i] - processes[i][1] - processes[i][2]
-        # 회전 시간
+
         turnaround_time[i] = completion_time[i] - processes[i][1]
         processes[i]=processes[i]+[waiting_time[i],turnaround_time[i]]
 
-    # 평균 대기 시간과 평균 회전 시간을 계산
+
     avg_waiting_time = sum(waiting_time)/n
     avg_turnaround_time = sum(turnaround_time)/n
 
-    # 계산된 값들을 튜플로 반환
+
     return processes
 
 """
