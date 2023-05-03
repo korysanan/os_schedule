@@ -57,6 +57,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setVerticalHeaderItem(15, item)
         item = QtWidgets.QTableWidgetItem()
+
         item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignBottom)
         self.tableWidget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
@@ -119,6 +120,7 @@ class Ui_MainWindow(object):
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignBottom)
         self.tableWidget.setHorizontalHeaderItem(20, item)
+
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox.setGeometry(QtCore.QRect(540, 130, 120, 151))
         self.groupBox.setObjectName("groupBox")
@@ -367,6 +369,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "19"))
         item = self.tableWidget.horizontalHeaderItem(20)
         item.setText(_translate("MainWindow", "20"))
+
         self.groupBox.setTitle(_translate("MainWindow", "Core 0"))
         self.radioButton.setText(_translate("MainWindow", "OFF"))
         self.Process1.setText(_translate("MainWindow", "P - Core"))
@@ -387,17 +390,21 @@ class Ui_MainWindow(object):
         self.Process1_7.setText(_translate("MainWindow", "P - Core"))
         self.Process1_8.setText(_translate("MainWindow", "E - Core"))
         self.label_11.setText(_translate("MainWindow", "0.00W"))
+
         self.pushButton.setText(_translate("MainWindow", "Run"))
+
         self.comboBox.setItemText(0, _translate("MainWindow", "Our Own Algorithm"))
         self.comboBox.setItemText(1, _translate("MainWindow", "FCFS"))
         self.comboBox.setItemText(2, _translate("MainWindow", "RR"))
         self.comboBox.setItemText(3, _translate("MainWindow", "SPN"))
         self.comboBox.setItemText(4, _translate("MainWindow", "SRTN"))
         self.comboBox.setItemText(5, _translate("MainWindow", "HRRN"))
+
         self.label.setText(_translate("MainWindow", "Algorithm :"))
         self.label_2.setText(_translate("MainWindow", "  RR :"))
         self.label_3.setText(_translate("MainWindow", "Time :"))
         self.label_4.setText(_translate("MainWindow", "Total Power Consumption :"))
+
         item = self.tableWidget_3.horizontalHeaderItem(0)
         item.setText(_translate("MainWindow", "Process"))
         item = self.tableWidget_3.horizontalHeaderItem(1)
@@ -452,7 +459,24 @@ class Ui_MainWindow(object):
             text1 = self.tableWidget_2.item(row,1)
             text2 = self.tableWidget_2.item(row,2)
             p.append([name.text(),int(text1.text()), int(text2.text())])
-        result = FCFS_Scheduling.FCFS(self.tableWidget_2.rowCount(),p)
+
+
+        list_text = self.comboBox.currentText()
+
+        if list_text == "Our Own Algorithm" :
+            result = FCFS_Scheduling.FCFS(self.tableWidget_2.rowCount(),p)
+        elif list_text == "FCFS" :
+            result = FCFS_Scheduling.FCFS(self.tableWidget_2.rowCount(),p)
+#        elif list_text == "RR" :
+#            RR()
+#        elif list_text == "SPN" :
+#            SPN()
+#        elif list_text == "SRTN" :
+#            SRTN()
+#        elif list_text == "HRRN" :
+#            HRRN()
+
+
         for r in range(0,len(result)):
             row_position = self.tableWidget_3.rowCount()
             self.tableWidget_3.insertRow(row_position)
