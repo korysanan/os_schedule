@@ -16,11 +16,6 @@ def FCFS(n, processes) :
         turnaround_time[i] = completion_time[i] - processes[i][1]
         processes[i]=processes[i]+[waiting_time[i],turnaround_time[i]]
 
-
-    avg_waiting_time = sum(waiting_time)/n
-    avg_turnaround_time = sum(turnaround_time)/n
-
-
     return processes
 
 """

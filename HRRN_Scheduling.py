@@ -1,31 +1,30 @@
 def HRRN(n, processes):
-    completion_time = [0]*n
+    # 실행 순서와 각 프로세스의 실행 완료 시간, 대기 시간을 계산
+    completion_time = 0
     waiting_time = [0]*n
     turnaround_time = [0]*n
-    remaining_burst_time = [process[1] for process in processes]
-    current_time = 0
+    result = []
 
-    while True:
-        if all(burst_time == 0 for burst_time in remaining_burst_time):
-            break
+    while len(processes) > 0:
+        max_priority = -1
+        highest_response_ratio_index = 0
+        for i in range(len(processes)):
+            response_ratio = (completion_time - processes[i][1] + processes[i][2]) / processes[i][2]
+            if response_ratio > max_priority:
+                max_priority = response_ratio
+                highest_response_ratio_index = i
+        
+        # 실행 시간이 가장 높은 프로세스를 선택하고 해당 프로세스를 제거
+        process = processes.pop(highest_response_ratio_index)
+        
+        # 해당 프로세스의 대기 시간, 반환 시간 계산
+        waiting_time[highest_response_ratio_index] = completion_time - process[1]
+        turnaround_time[highest_response_ratio_index] = completion_time + process[2] - process[1]
+        
+        # 실행 완료 시간 갱신
+        completion_time += process[2]
+        
+        # 결과 리스트에 추가
+        result.append([process[0], process[1], process[2], waiting_time[highest_response_ratio_index], turnaround_time[highest_response_ratio_index]])
 
-        available_processes = [i for i in range(n) if processes[i][0] <= current_time and remaining_burst_time[i] > 0]
-        if not available_processes:
-            current_time += 1
-            continue
-
-        response_ratios = [(i, (current_time - processes[i][0] + remaining_burst_time[i]) / remaining_burst_time[i]) for i in available_processes]
-        highest_ratio_process = max(response_ratios, key=lambda x: x[1])
-        highest_ratio_process_index = highest_ratio_process[0]
-
-        current_time += remaining_burst_time[highest_ratio_process_index]
-        remaining_burst_time[highest_ratio_process_index] = 0
-
-        completion_time[highest_ratio_process_index] = current_time
-        waiting_time[highest_ratio_process_index] = current_time - processes[highest_ratio_process_index][0] - processes[highest_ratio_process_index][1]
-        turnaround_time[highest_ratio_process_index] = current_time - processes[highest_ratio_process_index][0]
-
-    avg_waiting_time = sum(waiting_time)/n
-    avg_turnaround_time = sum(turnaround_time)/n
-
-    return processes
+    return result

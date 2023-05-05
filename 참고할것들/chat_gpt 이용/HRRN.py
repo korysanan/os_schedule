@@ -37,8 +37,8 @@ avg_waiting_time = sum(waiting_time)/n
 avg_turnaround_time = sum(turnaround_time)/n
 
 print("\nHRRN Scheduling Results")
-print("Process\tArrival Time\tBurst Time\tCompletion Time\tWaiting Time\tTurnaround Time")
+print("Process\tArrival Time\tBurst Time\tCompletion Time\tWaiting Time\tTurnaround Time\tNomalized TT")
 for i in range(n):
-    print(f"{i+1}\t\t{processes[i][0]}\t\t{processes[i][1]}\t\t{completion_time[i]}\t\t{waiting_time[i]}\t\t{turnaround_time[i]}")
+    print(f"{i+1}\t\t{processes[i][0]}\t\t{processes[i][1]}\t\t{completion_time[i]}\t\t{waiting_time[i]}\t\t{turnaround_time[i]}\t\t{turnaround_time[i] / processes[i][1]}")
 print(f"\nAverage waiting time: {avg_waiting_time}")
 print(f"Average turnaround time: {avg_turnaround_time}")
