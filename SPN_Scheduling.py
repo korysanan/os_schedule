@@ -19,4 +19,7 @@ def SPN(n, processes):
         result.append([processes[CURRENTLY][0],processes[CURRENTLY][1],processes[CURRENTLY][2],waiting_time,turnaround_time])
         del processes[CURRENTLY]
         n=n-1
+    
+    result.sort(key=lambda x: x[0])
+
     return result

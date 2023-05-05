@@ -1,49 +1,53 @@
-def OOA(n, processes, quantum):
+def OOA(n, processes, quantam):
     # 실행 순서와 각 프로세스의 실행 완료 시간, 대기 시간을 계산
     completion_time = 0
     waiting_time = [0]*n
     turnaround_time = [0]*n
-    response_ratio = [0]*n
-    currently = -1  # 현재 실행 중인 프로세스
     result = []
-    name = []
+    remaining_time = [process[2] for process in processes]
 
     while True:
-        # 대기 중인 프로세스 중에서 응답 비율이 가장 높은 프로세스 선택
-        max_ratio = -1
+        done = True
         for i in range(n):
-            if processes[i][1] <= completion_time and processes[i][2] > 0:
-                ratio = (waiting_time[i] + processes[i][2]) / processes[i][2]
-                if ratio > max_ratio:
-                    max_ratio = ratio
-                    currently = i
-
-        # 모든 프로세스가 실행을 완료한 경우 종료
-        if max_ratio == -1:
+            if remaining_time[i] > 0:
+                done = False
+                if remaining_time[i] > quantam:
+                    completion_time += quantam
+                    remaining_time[i] -= quantam
+                else:
+                    completion_time += remaining_time[i]
+                    waiting_time[i] = completion_time - processes[i][2] - processes[i][1]
+                    turnaround_time[i] = completion_time - processes[i][1]
+                    remaining_time[i] = 0
+                    result.append([processes[i][0], processes[i][1], processes[i][2], waiting_time[i], turnaround_time[i]])
+        
+        if done == True:
             break
 
-        # 현재 프로세스 실행
-        if processes[currently][2] > quantum:
-            processes[currently][2] -= quantum
-            completion_time += quantum
-        else:
-            completion_time += processes[currently][2]
-            processes[currently][2] = 0
-
-        # 대기 시간, 반환 시간, 응답 비율 계산
+        # 우선순위를 반영하여 실행할 프로세스 선택
+        max_priority = -1
+        highest_response_ratio_index = 0
         for i in range(n):
-            if i != currently and processes[i][1] <= completion_time and processes[i][2] > 0:
-                waiting_time[i] += quantum if i != currently else 0
-                response_ratio[i] = (waiting_time[i] + processes[i][2]) / processes[i][2]
-            else:
-                response_ratio[i] = -1
-
-        turnaround_time[currently] = completion_time - processes[currently][1]
-        waiting_time[currently] = turnaround_time[currently] - processes[currently][3]
-        response_ratio[currently] = -1  # 현재 실행 중인 프로세스의 응답 비율은 계산하지 않음
-
-        # 실행 결과 저장
-        result.append([processes[currently][0], processes[currently][1], processes[currently][3], waiting_time[currently], turnaround_time[currently]])
-        name.append(processes[currently][0])
+            if remaining_time[i] > 0:
+                response_ratio = (completion_time - processes[i][1] + processes[i][2]) / processes[i][2]
+                if response_ratio > max_priority:
+                    max_priority = response_ratio
+                    highest_response_ratio_index = i
+        
+        # 선택한 프로세스가 이미 실행했던 프로세스인 경우, 우선순위를 다시 계산
+        if len(result) > 0 and result[-1][0] == processes[highest_response_ratio_index][0]:
+            max_priority = -1
+            for i in range(n):
+                if remaining_time[i] > 0 and i != highest_response_ratio_index:
+                    response_ratio = (completion_time - processes[i][1] + processes[i][2]) / processes[i][2]
+                    if response_ratio > max_priority:
+                        max_priority = response_ratio
+                        highest_response_ratio_index = i
+        
+        # 선택한 프로세스 실행
+        remaining_time[highest_response_ratio_index] -= quantam if remaining_time[highest_response_ratio_index] > quantam else remaining_time[highest_response_ratio_index]
+        
+    # 프로세스의 입력 순서대로 결과 리스트 정렬
+    result.sort(key=lambda x: x[0])
 
     return result
