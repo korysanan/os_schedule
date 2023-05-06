@@ -276,9 +276,11 @@ class Ui_MainWindow(object):
         self.pushButton_3 = QtWidgets.QPushButton(self.groupBox_7)
         self.pushButton_3.setGeometry(QtCore.QRect(330, 240, 111, 41))
         self.pushButton_3.setObjectName("pushButton_3")
+        self.pushButton_3.clicked.connect(self.delete_row)
         self.pushButton_4 = QtWidgets.QPushButton(self.groupBox_7)
         self.pushButton_4.setGeometry(QtCore.QRect(330, 290, 111, 41))
         self.pushButton_4.setObjectName("pushButton_4")
+        self.pushButton_4.clicked.connect(self.reset)
         self.tableWidget_4 = QtWidgets.QTableWidget(self.centralwidget)
         self.tableWidget_4.setGeometry(QtCore.QRect(510, 630, 741, 131))
         self.tableWidget_4.setDragEnabled(False)
@@ -487,6 +489,15 @@ class Ui_MainWindow(object):
         self.lineEdit.clear()
         self.lineEdit_2.clear()
         self.lineEdit_3.clear()
+    
+    def delete_row(self):
+        row_count = self.tableWidget_2.rowCount()
+        if row_count > 0:
+            self.tableWidget_2.removeRow(row_count - 1)
+    
+    def reset(self):
+        self.tableWidget_2.clearContents()
+        self.tableWidget_2.setRowCount(0)
 
     def run(self):
         if self.tableWidget_3.rowCount() > 0:
