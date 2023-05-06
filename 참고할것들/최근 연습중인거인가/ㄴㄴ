@@ -1,0 +1,29 @@
+from PyQt5.QtGui import QColor, QBrush
+from PyQt5.QtWidgets import QApplication, QTableWidget, QTableWidgetItem
+import sys
+
+app = QApplication(sys.argv)
+table = QTableWidget(3, 3)  # 3x3 크기의 테이블 위젯 생성
+
+# 각 셀에 대해 QTableWidgetItem을 추가하고 배경색 지정
+table.setItem(0, 0, QTableWidgetItem("Cell (0,0)"))
+table.item(0, 0).setBackground(QColor("red"))
+table.setItem(0, 1, QTableWidgetItem("Cell (0,1)"))
+table.item(0, 1).setBackground(QColor("red"))
+table.setItem(0, 2, QTableWidgetItem("Cell (0,2)"))
+table.item(0, 2).setBackground(QColor("blue"))
+table.setItem(1, 0, QTableWidgetItem("Cell (1,0)"))
+table.item(1, 0).setBackground(QColor("yellow"))
+table.setItem(1, 1, QTableWidgetItem("Cell (1,1)"))
+table.item(1, 1).setBackground(QColor("cyan"))
+table.setItem(1, 2, QTableWidgetItem("Cell (1,2)"))
+table.item(1, 2).setBackground(QColor("magenta"))
+table.setItem(2, 0, QTableWidgetItem("Cell (2,0)"))
+table.item(2, 0).setBackground(QColor("gray"))
+table.setItem(2, 1, QTableWidgetItem("Cell (2,1)"))
+table.item(2, 1).setBackground(QColor("orange"))
+table.setItem(2, 2, QTableWidgetItem("Cell (2,2)"))
+table.item(2, 2).setBackground(QColor("purple"))
+
+table.show()
+sys.exit(app.exec_())
