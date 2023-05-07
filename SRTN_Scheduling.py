@@ -14,11 +14,10 @@ def SRTN(n,processes):
         alltime += processes[a][2]
         runtime[a] = processes[a][2]
     pl = processes[cr][2]
-    print(runtime)
     while n != 0:
         if(len(runtime)>1):
             for i in range(n):
-                if runtime[cr]>processes[i][2] and processes[i][1]<=ct:
+                if runtime[cr]>runtime[i] and processes[i][1]<=ct:
                     cr=i
             ct+=1
             runtime[cr]-=1
@@ -33,5 +32,7 @@ def SRTN(n,processes):
             del runtime[cr]
             del processes[cr]
             n-=1
+            if (cr>len(runtime)-1):
+                cr=0
     result.sort(key=lambda x:x[1])
     return result
