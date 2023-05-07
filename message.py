@@ -128,60 +128,80 @@ class Ui_MainWindow(object):
         self.radioButton = QtWidgets.QRadioButton(self.groupBox)
         self.radioButton.setGeometry(QtCore.QRect(10, 20, 90, 16))
         self.radioButton.setObjectName("radioButton")
+        self.radioButton.setChecked(True)
+
         self.Process1 = QtWidgets.QRadioButton(self.groupBox)
         self.Process1.setGeometry(QtCore.QRect(10, 50, 90, 16))
         self.Process1.setObjectName("Process1")
+
         self.Process1_2 = QtWidgets.QRadioButton(self.groupBox)
         self.Process1_2.setGeometry(QtCore.QRect(10, 80, 90, 16))
         self.Process1_2.setObjectName("Process1_2")
+
         self.label_8 = QtWidgets.QLabel(self.groupBox)
         self.label_8.setGeometry(QtCore.QRect(10, 120, 56, 12))
         self.label_8.setObjectName("label_8")
+
         self.groupBox_2 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_2.setGeometry(QtCore.QRect(690, 130, 120, 151))
         self.groupBox_2.setObjectName("groupBox_2")
         self.radioButton_2 = QtWidgets.QRadioButton(self.groupBox_2)
         self.radioButton_2.setGeometry(QtCore.QRect(10, 20, 90, 16))
         self.radioButton_2.setObjectName("radioButton_2")
+        self.radioButton_2.setChecked(True)
+
         self.Process1_3 = QtWidgets.QRadioButton(self.groupBox_2)
         self.Process1_3.setGeometry(QtCore.QRect(10, 50, 90, 16))
         self.Process1_3.setObjectName("Process1_3")
+
         self.Process1_4 = QtWidgets.QRadioButton(self.groupBox_2)
         self.Process1_4.setGeometry(QtCore.QRect(10, 80, 90, 16))
         self.Process1_4.setObjectName("Process1_4")
+
         self.label_9 = QtWidgets.QLabel(self.groupBox_2)
         self.label_9.setGeometry(QtCore.QRect(10, 120, 56, 12))
         self.label_9.setObjectName("label_9")
+
         self.groupBox_3 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_3.setGeometry(QtCore.QRect(840, 130, 120, 151))
         self.groupBox_3.setObjectName("groupBox_3")
         self.radioButton_3 = QtWidgets.QRadioButton(self.groupBox_3)
         self.radioButton_3.setGeometry(QtCore.QRect(10, 20, 90, 16))
         self.radioButton_3.setObjectName("radioButton_3")
+        self.radioButton_3.setChecked(True)
+
         self.Process1_5 = QtWidgets.QRadioButton(self.groupBox_3)
         self.Process1_5.setGeometry(QtCore.QRect(10, 50, 90, 16))
         self.Process1_5.setObjectName("Process1_5")
+
         self.Process1_6 = QtWidgets.QRadioButton(self.groupBox_3)
         self.Process1_6.setGeometry(QtCore.QRect(10, 80, 90, 16))
         self.Process1_6.setObjectName("Process1_6")
+
         self.label_10 = QtWidgets.QLabel(self.groupBox_3)
         self.label_10.setGeometry(QtCore.QRect(10, 120, 56, 12))
         self.label_10.setObjectName("label_10")
+
         self.groupBox_4 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_4.setGeometry(QtCore.QRect(990, 130, 120, 151))
         self.groupBox_4.setObjectName("groupBox_4")
         self.radioButton_4 = QtWidgets.QRadioButton(self.groupBox_4)
         self.radioButton_4.setGeometry(QtCore.QRect(10, 20, 90, 16))
         self.radioButton_4.setObjectName("radioButton_4")
+        self.radioButton_4.setChecked(True)
+
         self.Process1_7 = QtWidgets.QRadioButton(self.groupBox_4)
         self.Process1_7.setGeometry(QtCore.QRect(10, 50, 90, 16))
         self.Process1_7.setObjectName("Process1_7")
+
         self.Process1_8 = QtWidgets.QRadioButton(self.groupBox_4)
         self.Process1_8.setGeometry(QtCore.QRect(10, 80, 90, 16))
         self.Process1_8.setObjectName("Process1_8")
+
         self.label_11 = QtWidgets.QLabel(self.groupBox_4)
         self.label_11.setGeometry(QtCore.QRect(10, 120, 56, 12))
         self.label_11.setObjectName("label_11")
+
         self.groupBox_5 = QtWidgets.QGroupBox(self.centralwidget)
         self.groupBox_5.setGeometry(QtCore.QRect(540, 20, 571, 71))
         self.groupBox_5.setTitle("")
