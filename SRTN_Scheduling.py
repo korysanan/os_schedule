@@ -33,8 +33,5 @@ def SRTN(n,processes):
             del runtime[cr]
             del processes[cr]
             n-=1
-            print(runtime)
-            print(processes)
     result.sort(key=lambda x:x[1])
     return result
-
