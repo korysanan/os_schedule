@@ -512,35 +512,35 @@ class Ui_MainWindow(object):
                 core = "E-Core"
             return core
 
-        def radioButtonClicked2(self):
-            core2 = ""
-            if self.radioButton_2.isChecked():
-                core2 = "OFF"
-            elif self.Process1_3.isChecked():
-                core2 = "P-Core"
-            elif self.Process1_4.isChecked():
-                core2 = "E-Core"
-            return core2
+        #def radioButtonClicked2(self):
+        #    core2 = ""
+        #    if self.radioButton_2.isChecked():
+        #        core2 = "OFF"
+        #    elif self.Process1_3.isChecked():
+        #        core2 = "P-Core"
+        #    elif self.Process1_4.isChecked():
+        #        core2 = "E-Core"
+        #    return core2
 
-        def radioButtonClicked3(self):
-            core3 = ""
-            if self.radioButton_3.isChecked():
-                core3 = "OFF"
-            elif self.Process1_5.isChecked():
-                core3 = "P-Core"
-            elif self.Process1_6.isChecked():
-                core3 = "E-Core"
-            return core3
+        #def radioButtonClicked3(self):
+        #    core3 = ""
+        #    if self.radioButton_3.isChecked():
+        #        core3 = "OFF"
+        #    elif self.Process1_5.isChecked():
+        #        core3 = "P-Core"
+        #    elif self.Process1_6.isChecked():
+        #        core3 = "E-Core"
+        #    return core3
 
-        def radioButtonClicked4(self):
-            core4 = ""
-            if self.radioButton_4.isChecked():
-                core4 = "OFF"
-            elif self.Process1_7.isChecked():
-                core4 = "P-Core"
-            elif self.Process1_8.isChecked():
-                core4 = "E-Core"
-            return core4
+        #def radioButtonClicked4(self):
+        #    core4 = ""
+        #    if self.radioButton_4.isChecked():
+        #        core4 = "OFF"
+        #    elif self.Process1_7.isChecked():
+        #        core4 = "P-Core"
+        #    elif self.Process1_8.isChecked():
+        #        core4 = "E-Core"
+        #    return core4
 
         #해당 코어 확인차 Total 뭐시기 텍스트 변환 - 응용 예정
         if radioButtonClicked(self) == "OFF":
