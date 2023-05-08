@@ -1,126 +1,43 @@
-#quantun이 3이상일때 정상적으로 실행됨
 def RR(n, processes, quantum):
     remaining_burst_time = [p[2] for p in processes]
+    aa_arrival_time = [p[1] for p in processes]
     completion_time = [0]*n
     waiting_time = [0]*n
     turnaround_time = [0]*n
     current_time = 0
+    queue = []
 
     while True:
         done = True
         for i in range(n):
-            if remaining_burst_time[i] > 0:
+            if processes[i][1] <= current_time and remaining_burst_time[i] > 0:
                 done = False
-
                 if remaining_burst_time[i] > quantum:
                     current_time += quantum
                     remaining_burst_time[i] -= quantum
+                    queue.append(i)
                 else:
-                    current_time += remaining_burst_time[i]
-                    completion_time[i] = current_time
-                    waiting_time[i] = completion_time[i] - processes[i][1] - processes[i][2]
-                    turnaround_time[i] = completion_time[i] - processes[i][1]
-                    remaining_burst_time[i] = 0
-                    processes[i] = processes[i] + [waiting_time[i], turnaround_time[i]]
-        
+                    if remaining_burst_time[i] <= quantum: # 추가된 if문
+                        current_time += remaining_burst_time[i]
+                        completion_time[i] = current_time
+                        waiting_time[i] = completion_time[i] - processes[i][1] - processes[i][2]
+                        turnaround_time[i] = completion_time[i] - processes[i][1]
+                        remaining_burst_time[i] = 0
+                        processes[i] = processes[i] + [waiting_time[i], turnaround_time[i]]
+                        while len(queue) > 0 and remaining_burst_time[queue[0]] == 0:
+                            j = queue.pop(0)
+                            completion_time[j] = current_time
+                            waiting_time[j] = completion_time[j] - processes[j][1] - processes[j][2]
+                            turnaround_time[j] = completion_time[j] - processes[j][1]
+                            processes[j] = processes[j] + [waiting_time[j], turnaround_time[j]]
+                    else:
+                        current_time += quantum # p[i][2] > quantum 인 경우
+                        remaining_burst_time[i] -= quantum
+                        queue.append(i)
+                    
         if done == True:
             break
 
     return processes
 
-# p1 제외 quantum = 2일 때 정상 작동
-def RR(n, processes, quantum):
-    remaining_burst_time = [p[2] for p in processes]
-    completion_time = [0]*n
-    waiting_time = [0]*n
-    turnaround_time = [0]*n
-    current_time = 0
-    queue = [] # 큐 생성
-
-    while True:
-        done = True
-        # 큐에 프로세스가 없으면서 아직 실행하지 않은 프로세스를 큐에 추가
-        for i in range(n):
-            if remaining_burst_time[i] > 0 and processes[i] not in queue:
-                if current_time >= processes[i][1]:
-                    queue.append(processes[i])
-        # 큐에 있는 프로세스 실행
-        if queue:
-            process = queue.pop(0)
-            i = processes.index(process)
-            if remaining_burst_time[i] > 0:
-                done = False
-                if remaining_burst_time[i] > quantum:
-                    current_time += quantum
-                    remaining_burst_time[i] -= quantum
-                    queue.append(process) # quantum 이후에도 실행이 안끝난 프로세스는 다시 큐에 추가
-                else:
-                    current_time += remaining_burst_time[i]
-                    completion_time[i] = current_time
-                    waiting_time[i] = completion_time[i] - processes[i][1] - processes[i][2]
-                    turnaround_time[i] = completion_time[i] - processes[i][1]
-                    remaining_burst_time[i] = 0
-                    processes[i] = processes[i] + [waiting_time[i], turnaround_time[i]]
-        # 큐가 비어있으면 시간을 1 증가시킴
-        else:
-            current_time += 1
-
-        if done == True:
-            break
-
-    return processes
-
-
-def OOA(n, processes, quantam):
-    # 실행 순서와 각 프로세스의 실행 완료 시간, 대기 시간을 계산
-    completion_time = 0
-    waiting_time = [0]*n
-    turnaround_time = [0]*n
-    result = []
-    remaining_time = [process[2] for process in processes]
-
-    while True:
-        done = True
-        for i in range(n):
-            if remaining_time[i] > 0:
-                done = False
-                if remaining_time[i] > quantam:
-                    completion_time += quantam
-                    remaining_time[i] -= quantam
-                else:
-                    completion_time += remaining_time[i]
-                    waiting_time[i] = completion_time - processes[i][2] - processes[i][1]
-                    turnaround_time[i] = completion_time - processes[i][1]
-                    remaining_time[i] = 0
-                    result.append([processes[i][0], processes[i][1], processes[i][2], waiting_time[i], turnaround_time[i]])
-        
-        if done == True:
-            break
-
-        # 우선순위를 반영하여 실행할 프로세스 선택
-        max_priority = -1
-        highest_response_ratio_index = 0
-        for i in range(n):
-            if remaining_time[i] > 0:
-                response_ratio = (completion_time - processes[i][1] + processes[i][2]) / processes[i][2]
-                if response_ratio > max_priority:
-                    max_priority = response_ratio
-                    highest_response_ratio_index = i
-        
-        # 선택한 프로세스가 이미 실행했던 프로세스인 경우, 우선순위를 다시 계산
-        if len(result) > 0 and result[-1][0] == processes[highest_response_ratio_index][0]:
-            max_priority = -1
-            for i in range(n):
-                if remaining_time[i] > 0 and i != highest_response_ratio_index:
-                    response_ratio = (completion_time - processes[i][1] + processes[i][2]) / processes[i][2]
-                    if response_ratio > max_priority:
-                        max_priority = response_ratio
-                        highest_response_ratio_index = i
-        
-        # 선택한 프로세스 실행
-        remaining_time[highest_response_ratio_index] -= quantam if remaining_time[highest_response_ratio_index] > quantam else remaining_time[highest_response_ratio_index]
-        
-    # 프로세스의 입력 순서대로 결과 리스트 정렬
-    result.sort(key=lambda x: x[0])
-
-    return result
+processes = [["p1", 0, 3, 2, 5], ["p2", 1, 7, 11, 18], ["p3", 3, 2, 2, 4], ["p4", 5, 5, 10, 15], ["p5", 6, 3, 9, 12]]

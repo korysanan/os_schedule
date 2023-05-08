@@ -1,53 +1,49 @@
-def OOA(n, processes, quantam):
-    # 실행 순서와 각 프로세스의 실행 완료 시간, 대기 시간을 계산
+def OOA(n, processes, quantum):
     completion_time = 0
     waiting_time = [0]*n
     turnaround_time = [0]*n
     result = []
-    remaining_time = [process[2] for process in processes]
+    ready_queue = []
 
-    while True:
-        done = True
-        for i in range(n):
-            if remaining_time[i] > 0:
-                done = False
-                if remaining_time[i] > quantam:
-                    completion_time += quantam
-                    remaining_time[i] -= quantam
-                else:
-                    completion_time += remaining_time[i]
-                    waiting_time[i] = completion_time - processes[i][2] - processes[i][1]
-                    turnaround_time[i] = completion_time - processes[i][1]
-                    remaining_time[i] = 0
-                    result.append([processes[i][0], processes[i][1], processes[i][2], waiting_time[i], turnaround_time[i]])
-        
-        if done == True:
-            break
+    while len(processes) > 0 or len(ready_queue) > 0:
+        # Check for new arrivals
+        for i in range(len(processes)):
+            if processes[i][1] <= completion_time:
+                ready_queue.append(processes.pop(i))
+                break
 
-        # 우선순위를 반영하여 실행할 프로세스 선택
-        max_priority = -1
-        highest_response_ratio_index = 0
-        for i in range(n):
-            if remaining_time[i] > 0:
-                response_ratio = (completion_time - processes[i][1] + processes[i][2]) / processes[i][2]
+        if len(ready_queue) > 0:
+            # Choose the process with the highest response ratio
+            max_priority = -1
+            highest_response_ratio_index = 0
+            for i in range(len(ready_queue)):
+                response_ratio = (completion_time - ready_queue[i][1] + ready_queue[i][2]) / ready_queue[i][2]
                 if response_ratio > max_priority:
                     max_priority = response_ratio
                     highest_response_ratio_index = i
-        
-        # 선택한 프로세스가 이미 실행했던 프로세스인 경우, 우선순위를 다시 계산
-        if len(result) > 0 and result[-1][0] == processes[highest_response_ratio_index][0]:
-            max_priority = -1
-            for i in range(n):
-                if remaining_time[i] > 0 and i != highest_response_ratio_index:
-                    response_ratio = (completion_time - processes[i][1] + processes[i][2]) / processes[i][2]
-                    if response_ratio > max_priority:
-                        max_priority = response_ratio
-                        highest_response_ratio_index = i
-        
-        # 선택한 프로세스 실행
-        remaining_time[highest_response_ratio_index] -= quantam if remaining_time[highest_response_ratio_index] > quantam else remaining_time[highest_response_ratio_index]
-        
-    # 프로세스의 입력 순서대로 결과 리스트 정렬
-    result.sort(key=lambda x: x[0])
+            
+            process = ready_queue.pop(highest_response_ratio_index)
+
+            if process[2] <= quantum:
+                # Process execution time is less than or equal to the quantum
+                waiting_time[int(process[0][1:]) - 1] = completion_time - int(process[1])
+                turnaround_time[process[0][1:] - 1] = completion_time + int(process[2]) - int(process[1])
+                completion_time += int(process[2])
+                result.append([process[0], process[1], process[2], waiting_time[process[0] - 1], turnaround_time[process[0] - 1]])
+            else:
+                # Process execution time is greater than the quantum
+                waiting_time[int(process[0][1:]) - 1] = completion_time - int(process[1])
+                turnaround_time[int(process[0][1:]) - 1] = completion_time + quantum - int(process[1])
+                process[2] -= quantum
+                completion_time += quantum
+                ready_queue.append(process)
+
+        else:
+            # There are no processes in ready_queue, but there are still processes to arrive
+            process = processes.pop(0)
+            waiting_time[int(process[0]) - 1] = 0
+            turnaround_time[int(process[0]) - 1] = process[2]
+            completion_time = process[1] + process[2]
+            result.append([process[0], process[1], process[2], waiting_time[process[0] - 1], turnaround_time[process[0] - 1]])
 
     return result

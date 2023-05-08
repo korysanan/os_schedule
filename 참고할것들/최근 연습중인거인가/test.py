@@ -1,6 +1,7 @@
 from collections import deque
 
-def RR(n, processes, quantum):
+def round_robin(processes, quantum):
+    n = len(processes)
     arrival_time = [p[1] for p in processes]
     burst_time = [p[2] for p in processes]
     remaining_time = burst_time.copy()
@@ -55,3 +56,9 @@ def RR(n, processes, quantum):
     for i in range(n):
         results.append((processes[i][0], arrival_time[i], burst_time[i], waiting_time[i], turnaround_time[i], normalized_turnaround_time[i]))
     return results
+
+processes = [("P1", 0, 3), ("P2", 1, 7), ("P3", 3, 2), ("P4", 5, 5), ("P5", 6, 3)]
+quantum = 3
+results = round_robin(processes, quantum)
+for process in results:
+    print(process)

@@ -7,13 +7,11 @@ def SRTN(n,processes):
     cr = 0
     alltime = 0
     result = []
-    arrive = []
     while processes[cr][1] != 0:
         cr+=1
     for a in range(n):
         alltime += processes[a][2]
         runtime[a] = processes[a][2]
-    pl = processes[cr][2]
     while n != 0:
         if(len(runtime)>1):
             for i in range(n):
