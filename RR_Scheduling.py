@@ -11,20 +11,16 @@ def RR(n, processes, quantum):
     
     ready_queue = deque()
     current_time = 0
-    time_slice = quantum
     completed = 0
     index = 0
     
-    # Add the first process to the ready queue
     ready_queue.append(index)
     index += 1
     
     while completed < n:
-        # Get the next process from the ready queue
         current_process = ready_queue.popleft()
         
-        # Check if the process has completed
-        if remaining_time[current_process] <= time_slice:
+        if remaining_time[current_process] <= quantum:
             current_time += remaining_time[current_process]
             remaining_time[current_process] = 0
             completed += 1
@@ -32,25 +28,20 @@ def RR(n, processes, quantum):
             turnaround_time[current_process] = completion_time[current_process] - arrival_time[current_process]
             normalized_turnaround_time[current_process] = turnaround_time[current_process] / burst_time[current_process]
             
-        # If the process has not completed
         else:
-            current_time += time_slice
-            remaining_time[current_process] -= time_slice
+            current_time += quantum
+            remaining_time[current_process] -= quantum
             
-        # Add any newly arrived processes to the ready queue
         while index < n and arrival_time[index] <= current_time:
             ready_queue.append(index)
             index += 1
         
-        # Add the current process back to the ready queue if it has not completed
         if remaining_time[current_process] > 0:
             ready_queue.append(current_process)
         
-        # Calculate waiting time for each process
         for i in range(n):
             waiting_time[i] = turnaround_time[i] - burst_time[i]
     
-    # Return the results
     results = []
     for i in range(n):
         results.append((processes[i][0], arrival_time[i], burst_time[i], waiting_time[i], turnaround_time[i], normalized_turnaround_time[i]))

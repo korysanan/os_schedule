@@ -1,49 +1,64 @@
 def OOA(n, processes, quantum):
-    completion_time = 0
-    waiting_time = [0]*n
-    turnaround_time = [0]*n
-    result = []
+    arrival_time = [p[1] for p in processes]
+    burst_time = [p[2] for p in processes]
+    remaining_time = burst_time.copy()
+    waiting_time = [0] * n
+    turnaround_time = [0] * n
+    normalized_turnaround_time = [0] * n
+    completion_time = [0] * n
+    
     ready_queue = []
-
-    while len(processes) > 0 or len(ready_queue) > 0:
-        # Check for new arrivals
-        for i in range(len(processes)):
-            if processes[i][1] <= completion_time:
-                ready_queue.append(processes.pop(i))
-                break
-
-        if len(ready_queue) > 0:
-            # Choose the process with the highest response ratio
-            max_priority = -1
-            highest_response_ratio_index = 0
-            for i in range(len(ready_queue)):
-                response_ratio = (completion_time - ready_queue[i][1] + ready_queue[i][2]) / ready_queue[i][2]
-                if response_ratio > max_priority:
-                    max_priority = response_ratio
-                    highest_response_ratio_index = i
+    current_time = 0
+    completed = 0
+    
+    result = []
+    
+    while completed < n:
+        # Add new processes to the ready queue
+        for i in range(n):
+            if arrival_time[i] <= current_time and i not in ready_queue and remaining_time[i] > 0:
+                ready_queue.append(i)
+                
+        if not ready_queue:
+            # If the ready queue is empty, move to the next process
+            current_time += 1
+            continue
+        
+        # Compute response ratio and find the process with the highest priority
+        max_priority = -1
+        highest_response_ratio_index = 0
+        for i in range(len(ready_queue)):
+            if remaining_time[ready_queue[i]] == 0:
+                # Skip computation if remaining time is zero
+                max_priority = 99999999
+                highest_response_ratio_index = i
+                continue
+                
+            response_ratio = (current_time - arrival_time[ready_queue[i]] + remaining_time[ready_queue[i]]) / remaining_time[ready_queue[i]]
+            if response_ratio > max_priority:
+                max_priority = response_ratio
+                highest_response_ratio_index = i
+        
+        current_process = ready_queue[highest_response_ratio_index]
+        
+        if remaining_time[current_process] <= quantum:
+            current_time += remaining_time[current_process]
+            completion_time[current_process] = current_time
+            remaining_time[current_process] = 0
+            completed += 1
+            waiting_time[current_process] = completion_time[current_process] - burst_time[current_process] - arrival_time[current_process]
+            turnaround_time[current_process] = completion_time[current_process] - arrival_time[current_process]
+            normalized_turnaround_time[current_process] = turnaround_time[current_process] / burst_time[current_process]
             
-            process = ready_queue.pop(highest_response_ratio_index)
-
-            if process[2] <= quantum:
-                # Process execution time is less than or equal to the quantum
-                waiting_time[int(process[0][1:]) - 1] = completion_time - int(process[1])
-                turnaround_time[process[0][1:] - 1] = completion_time + int(process[2]) - int(process[1])
-                completion_time += int(process[2])
-                result.append([process[0], process[1], process[2], waiting_time[process[0] - 1], turnaround_time[process[0] - 1]])
-            else:
-                # Process execution time is greater than the quantum
-                waiting_time[int(process[0][1:]) - 1] = completion_time - int(process[1])
-                turnaround_time[int(process[0][1:]) - 1] = completion_time + quantum - int(process[1])
-                process[2] -= quantum
-                completion_time += quantum
-                ready_queue.append(process)
-
         else:
-            # There are no processes in ready_queue, but there are still processes to arrive
-            process = processes.pop(0)
-            waiting_time[int(process[0]) - 1] = 0
-            turnaround_time[int(process[0]) - 1] = process[2]
-            completion_time = process[1] + process[2]
-            result.append([process[0], process[1], process[2], waiting_time[process[0] - 1], turnaround_time[process[0] - 1]])
-
+            current_time += quantum
+            remaining_time[current_process] -= quantum
+        
+        # Remove completed process from the ready queue
+        ready_queue.remove(current_process)
+        
+    # Create result list
+    for i in range(n):
+        result.append([processes[i][0], processes[i][1], processes[i][2], waiting_time[i], turnaround_time[i], normalized_turnaround_time[i]])
+    
     return result
