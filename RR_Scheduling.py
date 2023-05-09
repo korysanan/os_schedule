@@ -1,6 +1,6 @@
 from collections import deque
 
-def RR(n, processes, quantum):
+def RR(n, processes, quantum, core):
     arrival_time = [p[1] for p in processes]
     burst_time = [p[2] for p in processes]
     remaining_time = burst_time.copy()

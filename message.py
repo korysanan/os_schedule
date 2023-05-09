@@ -719,17 +719,17 @@ class Ui_MainWindow(object):
         list_text = self.comboBox.currentText()
 
         if list_text == "Our Own Algorithm" :
-            result = Ooa_Scheduling.OOA(self.tableWidget_2.rowCount(),p, q)
+            result = Ooa_Scheduling.OOA(self.tableWidget_2.rowCount(), p, q, core_num)
         elif list_text == "FCFS" :
-            result = FCFS_Scheduling.FCFS(self.tableWidget_2.rowCount(),p, core_num)
+            result = FCFS_Scheduling.FCFS(self.tableWidget_2.rowCount(), p, core_num)
         elif list_text == "RR" :
-            result = RR_Scheduling.RR(self.tableWidget_2.rowCount(), p, q)
+            result = RR_Scheduling.RR(self.tableWidget_2.rowCount(), p, q, core_num)
         elif list_text == "SPN" :
-            result = SPN_Scheduling.SPN(self.tableWidget_2.rowCount(),p)
+            result = SPN_Scheduling.SPN(self.tableWidget_2.rowCount(), p, core_num)
         elif list_text == "SRTN" :
-            result = SRTN_Scheduling.SRTN(self.tableWidget_2.rowCount(),p)
+            result = SRTN_Scheduling.SRTN(self.tableWidget_2.rowCount(), p, core_num)
         elif list_text == "HRRN" :
-            result = HRRN_Scheduling.HRRN(self.tableWidget_2.rowCount(),p) 
+            result = HRRN_Scheduling.HRRN(self.tableWidget_2.rowCount(), p, core_num) 
 
         #result = [[process_name, Arrival time, Burst time, Waiting time, turnaround_time],
         # [process_name, Arrival time, Burst time, Waiting time, turnaround_time],

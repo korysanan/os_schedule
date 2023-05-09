@@ -1,4 +1,4 @@
-def SRTN(n,processes):
+def SRTN(n,processes, core):
     # 실행 순서와 각 프로세스의 실행 완료 시간, 대기 시간을 계산
     ct = 0
     wt = 0

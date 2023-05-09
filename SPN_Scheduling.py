@@ -1,4 +1,4 @@
-def SPN(n, processes):
+def SPN(n, processes, core):
     # 실행 순서와 각 프로세스의 실행 완료 시간, 대기 시간을 계산
     completion_time = 0
     waiting_time = [0]*n
