@@ -5,7 +5,7 @@ def SPN(n, processes, core):
     turnaround_time = [0]*n
     CURRENTLY = 0
     result = []
-    name = []
+    graph = []
     for a in range(n):
         pl = processes[0][2]
         for r in range(n):
@@ -17,9 +17,16 @@ def SPN(n, processes, core):
         turnaround_time = completion_time - processes[CURRENTLY][1]
         waiting_time =  turnaround_time-processes[CURRENTLY][2]
         result.append([processes[CURRENTLY][0],processes[CURRENTLY][1],processes[CURRENTLY][2],waiting_time,turnaround_time])
+        for u in range(turnaround_time - waiting_time):
+            graph.append(processes[CURRENTLY][0])
         del processes[CURRENTLY]
         n=n-1
-    
     result.sort(key=lambda x: x[0])
-
+    result.append(graph)
     return result
+
+n = 5
+processes = [["p1", 0, 3], ["p2", 1, 7], ["p3", 3, 2], ["p4", 5, 5], ["p5", 6, 3]]
+cores = ['P-core', 'P-core', 'E-core', 'E-core']
+a = SPN(n, processes, cores)
+print(a)

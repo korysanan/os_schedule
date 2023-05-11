@@ -7,6 +7,7 @@ def SRTN(n,processes, core):
     cr = 0
     alltime = 0
     result = []
+    graph = []
     while processes[cr][1] != 0:
         cr+=1
     for a in range(n):
@@ -27,10 +28,19 @@ def SRTN(n,processes, core):
             tt = ct-processes[cr][1]
             wt = tt-processes[cr][2]
             result.append([processes[cr][0],processes[cr][1],processes[cr][2],wt,tt])
+            #for u in range(tt - wt):
+            #    graph.append(processes[cr][0])
             del runtime[cr]
             del processes[cr]
             n-=1
             if (cr>len(runtime)-1):
                 cr=0
+    #print(graph)
     result.sort(key=lambda x:x[1])
     return result
+
+n = 5
+processes = [["p1", 0, 3], ["p2", 1, 7], ["p3", 3, 2], ["p4", 5, 5], ["p5", 6, 3]]
+cores = ['P-core', 'P-core', 'E-core', 'E-core']
+a = SRTN(n, processes, cores)
+print(a)

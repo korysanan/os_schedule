@@ -1,9 +1,10 @@
 def FCFS(n, processes, core) :
+    processes.sort(key = lambda x:x[1])
     # 실행 순서와 각 프로세스의 실행 완료 시간, 대기 시간을 계산
     completion_time = [0]*n
     waiting_time = [0]*n
     turnaround_time = [0]*n
-    
+    graph = []
 
     for i in range(n):
         # 실행 순서
@@ -16,8 +17,17 @@ def FCFS(n, processes, core) :
 
         turnaround_time[i] = completion_time[i] - processes[i][1]
         processes[i]=processes[i]+[waiting_time[i],turnaround_time[i]]
-
+        for a in range(turnaround_time[i] - waiting_time[i]):
+            graph.append(processes[i][0])
+    processes.sort(key=lambda x: x[0])
+    processes.append(graph)
     return processes
+
+n = 5
+processes = [["p1", 0, 3], ["p2", 1, 7], ["p3", 3, 2], ["p4", 5, 5], ["p5", 6, 3]]
+cores = ['P-core', 'P-core', 'E-core', 'E-core']
+a =FCFS(n, processes, cores)
+print(a)
 
 """
 # 프로세스 정보를 담은 리스트

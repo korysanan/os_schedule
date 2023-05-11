@@ -12,6 +12,7 @@ def OOA(n, processes, quantum, core):
     completed = 0
     
     result = []
+    graph = []
     
     while completed < n:
         # Add new processes to the ready queue
@@ -42,6 +43,7 @@ def OOA(n, processes, quantum, core):
         current_process = ready_queue[highest_response_ratio_index]
         
         if remaining_time[current_process] <= quantum:
+            re = remaining_time[current_process]
             current_time += remaining_time[current_process]
             completion_time[current_process] = current_time
             remaining_time[current_process] = 0
@@ -49,16 +51,19 @@ def OOA(n, processes, quantum, core):
             waiting_time[current_process] = completion_time[current_process] - burst_time[current_process] - arrival_time[current_process]
             turnaround_time[current_process] = completion_time[current_process] - arrival_time[current_process]
             normalized_turnaround_time[current_process] = turnaround_time[current_process] / burst_time[current_process]
+            for u in range(re):
+                graph.append(processes[current_process][0])
             
         else:
             current_time += quantum
             remaining_time[current_process] -= quantum
+            for u in range(quantum):
+                graph.append(processes[current_process][0])
         
         # Remove completed process from the ready queue
         ready_queue.remove(current_process)
-        
     # Create result list
     for i in range(n):
         result.append([processes[i][0], processes[i][1], processes[i][2], waiting_time[i], turnaround_time[i], normalized_turnaround_time[i]])
-    
+    result.append(graph)
     return result

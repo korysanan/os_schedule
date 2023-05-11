@@ -4,6 +4,7 @@ def HRRN(n, processes, core):
     waiting_time = [0]*n
     turnaround_time = [0]*n
     result = []
+    graph = []
 
     while len(processes) > 0:
         max_priority = -1
@@ -26,5 +27,13 @@ def HRRN(n, processes, core):
         
         # 결과 리스트에 추가
         result.append([process[0], process[1], process[2], waiting_time[highest_response_ratio_index], turnaround_time[highest_response_ratio_index]])
-
+        for u in range(turnaround_time[highest_response_ratio_index] - waiting_time[highest_response_ratio_index]):
+            graph.append(process[0])
+    result.append(graph)
     return result
+
+n = 5
+processes = [["p1", 0, 3], ["p2", 1, 7], ["p3", 3, 2], ["p4", 5, 5], ["p5", 6, 3]]
+cores = ['P-core', 'P-core', 'E-core', 'E-core']
+a =HRRN(n, processes, cores)
+print(a)

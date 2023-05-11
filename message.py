@@ -564,6 +564,11 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "19"))                
 
     def add_row(self):
+        color_2 = ["Red", "Skyblue", "Pink", "Orange",
+                "Yellow", "Purple", "Blue", "Gray",
+                "Green", "Beige", "Indigo", "Navy",
+                "Crimson", "Brown", "Silver"]
+        
         processor_name = self.lineEdit.text()
         at = self.lineEdit_2.text()
         workload = self.lineEdit_3.text()
@@ -636,36 +641,6 @@ class Ui_MainWindow(object):
             elif self.Process1_8.isChecked():
                 core4 = "E-Core"
             return core4
-
-        #해당 코어 확인차 Total 뭐시기 텍스트 변환 - 응용 예정
-        if radioButtonClicked(self) == "OFF":
-            core_num.append("O")
-            #self.label_4.setText(core_num[0])
-        elif radioButtonClicked(self) == "P-Core":
-            core_num.append("P")
-        elif radioButtonClicked(self) == "E-Core":
-            core_num.append("E")
-
-        if radioButtonClicked2(self) == "OFF":
-            core_num.append("O")
-        elif radioButtonClicked2(self) == "P-Core":
-            core_num.append("P")
-        elif radioButtonClicked2(self) == "E-Core":
-            core_num.append("E")
-
-        if radioButtonClicked3(self) == "OFF":
-            core_num.append("O")
-        elif radioButtonClicked3(self) == "P-Core":
-            core_num.append("P")
-        elif radioButtonClicked3(self) == "E-Core":
-            core_num.append("E")
-
-        if radioButtonClicked4(self) == "OFF":
-            core_num.append("O")
-        elif radioButtonClicked4(self) == "P-Core":
-            core_num.append("P")
-        elif radioButtonClicked4(self) == "E-Core":
-            core_num.append("E")
         
         if self.tableWidget_3.rowCount() > 0:
             self.tableWidget_3.clearContents()
@@ -719,10 +694,14 @@ class Ui_MainWindow(object):
         list_text = self.comboBox.currentText()
 
         if list_text == "Our Own Algorithm" :
+            if q == 0:
+                return
             result = Ooa_Scheduling.OOA(self.tableWidget_2.rowCount(), p, q, core_num)
         elif list_text == "FCFS" :
             result = FCFS_Scheduling.FCFS(self.tableWidget_2.rowCount(), p, core_num)
         elif list_text == "RR" :
+            if q == 0:
+                return 
             result = RR_Scheduling.RR(self.tableWidget_2.rowCount(), p, q, core_num)
         elif list_text == "SPN" :
             result = SPN_Scheduling.SPN(self.tableWidget_2.rowCount(), p, core_num)
@@ -734,8 +713,8 @@ class Ui_MainWindow(object):
         #result = [[process_name, Arrival time, Burst time, Waiting time, turnaround_time],
         # [process_name, Arrival time, Burst time, Waiting time, turnaround_time],
         # [process_name, Arrival time, Burst time, Waiting time, turnaround_time]]
-
-        for r in range(0,len(result)):
+        l = len(result)
+        for r in range(0,l - 1):
             row_position = self.tableWidget_3.rowCount()
             self.tableWidget_3.insertRow(row_position)
             self.tableWidget_3.setItem(row_position, 0, QTableWidgetItem(str(result[r][0])))
@@ -745,29 +724,87 @@ class Ui_MainWindow(object):
             self.tableWidget_3.setItem(row_position, 4, QTableWidgetItem(str(result[r][4])))
             self.tableWidget_3.setItem(row_position, 5, QTableWidgetItem(str(round(result[r][4]/result[r][2],1))))
         
-        #for j in range(sum([r[2] for r in result])):
-        #    item = QTableWidgetItem()
-        #    if j < 3:
-        #        item.setBackground(QtGui.QBrush(QtGui.QColor(color[0])))
-        #    elif j < 10:
-        #        item.setBackground(QtGui.QBrush(QtGui.QColor(color[1])))
-        #    else:
-        #        item.setBackground(QtGui.QBrush(QtGui.QColor(color[2])))
-        #    if j == 0:
-        #        self.tableWidget_4.setHorizontalHeaderItem(0, item)
-        #    else:
-        #        self.tableWidget_4.setHorizontalHeaderItem(0, QTableWidgetItem())
-        #        self.tableWidget_4.setHorizontalHeaderItem(j, item)
+        color_dict = {}
+        z = 0
 
+        for item in result[-1]:
+            if item not in color_dict:
+                color_dict[item] = color[z % len(color)]
+                z += 1
 
-        #for i in range(len(color)):
-            # QTableWidgetItem 생성
-        #    item = QTableWidgetItem()
-            # 배경 색상 설정
-        #    item.setBackground(QColor(color[i]))
-            # tableWidget_4에 아이템 추가
-        #    self.tableWidget_4.setItem(i, 0, item)
-            
+        for u in range(len(result[-1])):
+            row_position = self.tableWidget_4.rowCount()
+            item = QTableWidgetItem(result[-1][u])
+            item.setBackground(QColor(color_dict[result[-1][u]]))
+            item.setText('')
+            self.tableWidget_4.setItem(0, u, item)
+
+        P_start = 0.5
+        E_start = 0.1
+        #해당 코어 확인차 Total 뭐시기 텍스트 변환 - 응용 예정
+        if radioButtonClicked(self) == "OFF":
+            core_num.append("O")
+            ans1 = 0
+            self.label_8.setText("")
+        elif radioButtonClicked(self) == "P-Core":
+            core_num.append("P")
+            for ux in range(l-1):
+                ans1 = P_start + 3 * result[r][2]
+            self.label_8.setText(str(ans1) + "W")
+        elif radioButtonClicked(self) == "E-Core":
+            core_num.append("E")
+            for ux in range(l-1):
+                ans1 = E_start + result[r][2]
+            self.label_8.setText(str(ans1) + "W")
+
+        if radioButtonClicked2(self) == "OFF":
+            core_num.append("O")
+            ans2 = 0
+            self.label_9.setText("")
+        elif radioButtonClicked2(self) == "P-Core":
+            core_num.append("P")
+            for ux2 in range(l-1):
+                ans2 = P_start + 3 * result[r][2]
+            self.label_9.setText(str(ans2) + "W")
+        elif radioButtonClicked2(self) == "E-Core":
+            core_num.append("E")
+            for ux2 in range(l-1):
+                ans2 = E_start + result[r][2]
+            self.label_9.setText(str(ans2) + "W")
+
+        if radioButtonClicked3(self) == "OFF":
+            core_num.append("O")
+            ans3 = 0
+            self.label_10.setText("")
+        elif radioButtonClicked3(self) == "P-Core":
+            core_num.append("P")
+            for ux3 in range(l-1):
+                ans3 = P_start + 3 * result[r][2]
+            self.label_10.setText(str(ans3) + "W")
+        elif radioButtonClicked3(self) == "E-Core":
+            core_num.append("E")
+            for ux3 in range(l-1):
+                ans3 = E_start + result[r][2]
+            self.label_10.setText(str(ans3) + "W")
+
+        if radioButtonClicked4(self) == "OFF":
+            core_num.append("O")
+            ans4 = 0
+            self.label_11.setText("")
+        elif radioButtonClicked4(self) == "P-Core":
+            core_num.append("P")
+            for ux4 in range(l-1):
+                ans4 = P_start + 3 * result[r][2]
+            self.label_11.setText(str(ans4) + "W")
+        elif radioButtonClicked4(self) == "E-Core":
+            core_num.append("E")
+            for ux4 in range(l-1):
+                ans4 = E_start + result[r][2]
+            self.label_11.setText(str(ans4) + "W")
+        
+        ans = ans1 + ans2 + ans3 + ans4
+        self.label_4.setText("TPC : " + str(ans) + "W")
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
