@@ -16,10 +16,10 @@ def SPN(n, processes, core):
     for a in range(n):
 
         if(a==0):
-            if(core[sunseo] == "E"):            #전력량 계산
-                AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-            elif(core[sunseo] == "P"):
-                AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+            if(core[0] == "E"):            #전력량 계산
+                AW = Ecore(AW,onoff)
+            elif(core[0] == "P"):
+                AW = Pcore(AW,onoff)
 
         pl = processes[0][2]
         for r in range(n):
@@ -31,10 +31,10 @@ def SPN(n, processes, core):
         if(completion_time != processes[CURRENTLY][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
             onoff = 0
 
-        if(core[sunseo] == "E"):            #전력량 계산
-            AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-        elif(core[sunseo] == "P"):
-            AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+        if(core[0] == "E"):            #전력량 계산
+            AW = Ecore(AW,onoff)
+        elif(core[0] == "P"):
+            AW = Pcore(AW,onoff)
 
         completion_time = completion_time + processes[CURRENTLY][2]
         turnaround_time = completion_time - processes[CURRENTLY][1]

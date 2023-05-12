@@ -31,12 +31,14 @@ def HRRN(n, processes, core):
                 highest_response_ratio_index = i
         
 
+        if(completion_time != processes[i][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
+           onoff = 0
         
 
         if(core[sunseo] == "E"):            #전력량 계산
-            AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
+            AW = Ecore(AW,onoff)
         elif(core[sunseo] == "P"):
-            AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+            AW = Pcore(AW,onoff)
 
         # 실행 시간이 가장 높은 프로세스를 선택하고 해당 프로세스를 제거
         process = processes.pop(highest_response_ratio_index)

@@ -16,6 +16,7 @@ def OOA(n, processes, quantum, core):
     
     AW=0
     onoff=0
+
     if(core[sunseo] == "P"):
         for i in range(n):
             processes[i][2] = round(processes[i][2])
@@ -37,10 +38,10 @@ def OOA(n, processes, quantum, core):
         for i in range(len(ready_queue)):
 
             if(i==0):
-                if(core[sunseo] == "E"):            #전력량 계산
-                    AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-                elif(core[sunseo] == "P"):
-                    AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+                if(core[0] == "E"):            #전력량 계산
+                    AW = Ecore(AW,onoff)
+                elif(core[0] == "P"):
+                    AW = Pcore(AW,onoff)
 
 
             if remaining_time[ready_queue[i]] == 0:
@@ -65,10 +66,10 @@ def OOA(n, processes, quantum, core):
 
             if(completion_time != processes[i][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
                 onoff = 0
-            if(core[sunseo] == "E"):            #전력량 계산
-                AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-            elif(core[sunseo] == "P"):
-                AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+            if(core[0] == "E"):            #전력량 계산
+                AW = Ecore(AW,onoff)
+            elif(core[0] == "P"):
+                AW = Pcore(AW,onoff)
 
             waiting_time[current_process] = completion_time[current_process] - burst_time[current_process] - arrival_time[current_process]
             turnaround_time[current_process] = completion_time[current_process] - arrival_time[current_process]
