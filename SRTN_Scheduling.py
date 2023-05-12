@@ -1,20 +1,4 @@
 import math
-<<<<<<< HEAD
-=======
-def Ecore(AW, onoff):
-    if onoff == 0: 
-        AW += 0.1
-        onoff = 1
-    AW += 1
-    return AW
-
-def Pcore(AW, onoff):
-    if onoff == 0:
-       AW += 0.5
-       onoff = 1 
-    AW += 3
-    return AW
->>>>>>> 8cd2560df15e1dbfde4e5e4d5d6de327eaf59ac5
 
 def SRTN(n, processes, core):
     # 실행 순서와 각 프로세스의 실행 완료 시간, 대기 시간을 계산
@@ -26,40 +10,15 @@ def SRTN(n, processes, core):
     alltime = 0
     result = []
     graph = []
-    AW=0
-    onoff=0
     while processes[cr][1] != 0:
         cr += 1
     for a in range(n):
-<<<<<<< HEAD
         if core == "P":
             alltime += math.ceil(processes[a][2] / 2)
             runtime[a] = math.ceil(processes[a][2] / 2)
         else :
             alltime += processes[a][2]
             runtime[a] = processes[a][2]
-=======
-        if(a==0):
-            if(core == "E"):            #전력량 계산
-                AW = Ecore(AW,onoff)
-            elif(core == "P"):
-                AW = Pcore(AW,onoff)
-
-        if core == "P":
-             alltime += math.ceil(processes[a][2] / 2)
-             runtime[a] = math.ceil(processes[a][2] / 2)
-        else :
-            alltime += processes[a][2]
-            runtime[a] = processes[a][2]
-
-        if(completion_time != processes[a][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
-           onoff = 0
-        if(core == "E"):            #전력량 계산
-            AW = Ecore(AW,onoff)
-        elif(core == "P"):
-            AW = Pcore(AW,onoff)
-
->>>>>>> 8cd2560df15e1dbfde4e5e4d5d6de327eaf59ac5
     while n != 0:
         if len(runtime) > 1:
             for i in range(n):
@@ -73,13 +32,8 @@ def SRTN(n, processes, core):
             runtime[cr] -= 1
         if runtime[cr] == 0:
             if core == "P":
-<<<<<<< HEAD
                 tt = ct - processes[cr][1]
                 wt = tt - math.ceil(processes[cr][2] / 2)
-=======
-                 tt = ct - processes[cr][1]
-                 wt = tt - math.ceil(processes[cr][2] / 2)
->>>>>>> 8cd2560df15e1dbfde4e5e4d5d6de327eaf59ac5
             else:
                 tt = ct - processes[cr][1]
                 wt = tt - processes[cr][2]
@@ -92,18 +46,5 @@ def SRTN(n, processes, core):
             if cr > len(runtime) - 1:
                 cr = 0
     result.sort(key=lambda x:x[1])
-<<<<<<< HEAD
     result.append(graph)
     return result
-=======
-    AW = round(AW,2)
-    processes.append(AW)
-    result.append(graph)
-    return result
-
-n = 5
-processes = [["p1", 0, 3], ["p2", 1, 7], ["p3", 3, 2], ["p4", 5, 5], ["p5", 6, 3]]
-cores = ["P", "E", "P", "E"]
-a = SRTN(n, processes, cores[0])
-print(a)
->>>>>>> 8cd2560df15e1dbfde4e5e4d5d6de327eaf59ac5
