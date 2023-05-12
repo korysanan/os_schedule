@@ -14,6 +14,12 @@ def OOA(n, processes, quantum, core):
     result = []
     graph = []
     
+    AW=0
+    onoff=0
+    if(core[sunseo] == "P"):
+        for i in range(n):
+            processes[i][2] = round(processes[i][2])
+
     while completed < n:
         # Add new processes to the ready queue
         for i in range(n):
@@ -29,6 +35,15 @@ def OOA(n, processes, quantum, core):
         max_priority = -1
         highest_response_ratio_index = 0
         for i in range(len(ready_queue)):
+
+            if(i==0):
+                if(core[sunseo] == "E"):            #전력량 계산
+                    AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
+                    onoff=1
+                elif(core[sunseo] == "P"):
+                    AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+                    onoff=1
+
             if remaining_time[ready_queue[i]] == 0:
                 # Skip computation if remaining time is zero
                 max_priority = 99999999
@@ -48,13 +63,22 @@ def OOA(n, processes, quantum, core):
             completion_time[current_process] = current_time
             remaining_time[current_process] = 0
             completed += 1
+
+            if(completion_time != processes[i][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
+                onoff = 0
+            if(core[sunseo] == "E"):            #전력량 계산
+                AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
+            elif(core[sunseo] == "P"):
+                AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+
             waiting_time[current_process] = completion_time[current_process] - burst_time[current_process] - arrival_time[current_process]
             turnaround_time[current_process] = completion_time[current_process] - arrival_time[current_process]
             normalized_turnaround_time[current_process] = turnaround_time[current_process] / burst_time[current_process]
             for u in range(re):
                 graph.append(processes[current_process][0])
             
-        else:
+        else:   #이부분도 전력량 더해야함?
+
             current_time += quantum
             remaining_time[current_process] -= quantum
             for u in range(quantum):

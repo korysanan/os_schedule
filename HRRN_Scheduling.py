@@ -6,15 +6,40 @@ def HRRN(n, processes, core):
     result = []
     graph = []
 
+    AW=0
+    onoff=0
+
+    if(core[sunseo] == "P"):
+        for i in range(n):
+            processes[i][2] = round(processes[i][2])
+
     while len(processes) > 0:
         max_priority = -1
         highest_response_ratio_index = 0
         for i in range(len(processes)):
+            if(a==0):
+                if(core[sunseo] == "E"):            #전력량 계산
+                    AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
+                    onoff=1
+                elif(core[sunseo] == "P"):
+                    AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+                    onoff=1
+
+            if(completion_time != processes[i][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
+                onoff = 0
             response_ratio = (completion_time - processes[i][1] + processes[i][2]) / processes[i][2]
             if response_ratio > max_priority:
                 max_priority = response_ratio
                 highest_response_ratio_index = i
         
+
+        
+
+        if(core[sunseo] == "E"):            #전력량 계산
+            AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
+        elif(core[sunseo] == "P"):
+            AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+
         # 실행 시간이 가장 높은 프로세스를 선택하고 해당 프로세스를 제거
         process = processes.pop(highest_response_ratio_index)
         

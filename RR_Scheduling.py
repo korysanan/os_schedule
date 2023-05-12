@@ -13,13 +13,28 @@ def RR(n, processes, quantum, core):
     current_time = 0
     completed = 0
     index = 0
+    AW=0
+    onoff=0
     
     ready_queue.append(index)
     index += 1
 
     graph = []
-    
+
+    if(core[sunseo] == "P"):
+        for i in range(n):
+            processes[i][2] = round(processes[i][2])
+
     while completed < n:
+
+        if(completed==0):
+            if(core[sunseo] == "E"):            #전력량 계산
+                AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
+                onoff=1
+            elif(core[sunseo] == "P"):
+                AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+                onoff=1
+
         current_process = ready_queue.popleft()
         if remaining_time[current_process] <= quantum:
             re = remaining_time[current_process]
@@ -44,7 +59,16 @@ def RR(n, processes, quantum, core):
         
         if remaining_time[current_process] > 0:
             ready_queue.append(current_process)
-        
+
+        if(completion_time != processes[completed][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
+            onoff = 0
+        if(core[sunseo] == "E"):            #전력량 계산
+            AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
+            onoff=1
+        elif(core[sunseo] == "P"):
+            AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
+            onoff=1
+
         for i in range(n):
             waiting_time[i] = turnaround_time[i] - burst_time[i]
     results = []
