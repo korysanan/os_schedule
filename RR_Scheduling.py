@@ -30,10 +30,9 @@ def RR(n, processes, quantum, core):
         if(completed==0):
             if(core[sunseo] == "E"):            #전력량 계산
                 AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-                onoff=1
             elif(core[sunseo] == "P"):
                 AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
-                onoff=1
+
 
         current_process = ready_queue.popleft()
         if remaining_time[current_process] <= quantum:
@@ -64,16 +63,16 @@ def RR(n, processes, quantum, core):
             onoff = 0
         if(core[sunseo] == "E"):            #전력량 계산
             AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-            onoff=1
         elif(core[sunseo] == "P"):
             AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
-            onoff=1
+
 
         for i in range(n):
             waiting_time[i] = turnaround_time[i] - burst_time[i]
     results = []
     for i in range(n):
         results.append((processes[i][0], arrival_time[i], burst_time[i], waiting_time[i], turnaround_time[i], normalized_turnaround_time[i]))
+    results.append(AW)
     results.append(graph)
     return results
 

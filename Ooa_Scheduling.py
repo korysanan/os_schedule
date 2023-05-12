@@ -39,10 +39,9 @@ def OOA(n, processes, quantum, core):
             if(i==0):
                 if(core[sunseo] == "E"):            #전력량 계산
                     AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-                    onoff=1
                 elif(core[sunseo] == "P"):
                     AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
-                    onoff=1
+
 
             if remaining_time[ready_queue[i]] == 0:
                 # Skip computation if remaining time is zero
@@ -89,5 +88,6 @@ def OOA(n, processes, quantum, core):
     # Create result list
     for i in range(n):
         result.append([processes[i][0], processes[i][1], processes[i][2], waiting_time[i], turnaround_time[i], normalized_turnaround_time[i]])
+    resule.append(AW)
     result.append(graph)
     return result

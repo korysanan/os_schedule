@@ -18,10 +18,8 @@ def SPN(n, processes, core):
         if(a==0):
             if(core[sunseo] == "E"):            #전력량 계산
                 AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-                onoff=1
             elif(core[sunseo] == "P"):
                 AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
-                onoff=1
 
         pl = processes[0][2]
         for r in range(n):
@@ -47,6 +45,7 @@ def SPN(n, processes, core):
         del processes[CURRENTLY]
         n=n-1
     result.sort(key=lambda x: x[0])
+    result.append(AW)
     result.append(graph)
     return result
 

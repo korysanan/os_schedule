@@ -25,10 +25,8 @@ def SRTN(n,processes, core):
         if(a==0):
             if(core[sunseo] == "E"):            #전력량 계산
                 AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-                onoff=1
             elif(core[sunseo] == "P"):
                 AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
-                onoff=1
 
         if(len(runtime)>1):
             for i in range(n):

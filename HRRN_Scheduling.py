@@ -20,10 +20,8 @@ def HRRN(n, processes, core):
             if(a==0):
                 if(core[sunseo] == "E"):            #전력량 계산
                     AW[sunseo] = Ecore(AW[sunseo],onoff[sunseo])
-                    onoff=1
                 elif(core[sunseo] == "P"):
                     AW[sunseo] = Pcore(AW[sunseo],onoff[sunseo])
-                    onoff=1
 
             if(completion_time != processes[i][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
                 onoff = 0
@@ -54,6 +52,7 @@ def HRRN(n, processes, core):
         result.append([process[0], process[1], process[2], waiting_time[highest_response_ratio_index], turnaround_time[highest_response_ratio_index]])
         for u in range(turnaround_time[highest_response_ratio_index] - waiting_time[highest_response_ratio_index]):
             graph.append(process[0])
+    result.append(AW)
     result.append(graph)
     return result
 
