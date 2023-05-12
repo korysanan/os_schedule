@@ -29,15 +29,15 @@ def RR(n, processes, quantum, core):
     
     while completed < n:
         current_process = ready_queue.popleft()
-        if remaining_time[current_process] <= quantum:
-            re = remaining_time[current_process]
-            current_time += remaining_time[current_process]
-            remaining_time[current_process] = 0
-            completed += 1
-            completion_time[current_process] = current_time
-            turnaround_time[current_process] = completion_time[current_process] - arrival_time[current_process]
-            normalized_turnaround_time[current_process] = turnaround_time[current_process] / burst_time[current_process]
-            for u in range(re):
+        if remaining_time[current_process] <= quantum:  #현재 프로세스의 남은 시간 <= quantum일 경우,
+            re = remaining_time[current_process] #색칠을 위한 저장
+            current_time += remaining_time[current_process] 
+            remaining_time[current_process] = 0 
+            completed += 1  
+            completion_time[current_process] = current_time # 현재 CT = 현재 시간
+            turnaround_time[current_process] = completion_time[current_process] - arrival_time[current_process]  # 현재 TT = CT - AT
+            normalized_turnaround_time[current_process] = turnaround_time[current_process] / burst_time[current_process] # 현재 NT = TT/BT
+            for u in range(re): # 현재 프로세스의 남은시간 만큼 색칠
                 graph.append(processes[current_process][0])
 
         else:
