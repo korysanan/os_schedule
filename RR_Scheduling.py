@@ -1,8 +1,29 @@
 from collections import deque
+import math
+def Ecore(AW, onoff):
+    if onoff == 0: 
+        AW += 0.1
+        onoff = 1
+    AW += 1
+    return AW
+
+def Pcore(AW, onoff):
+    if onoff == 0:
+       AW += 0.5
+       onoff = 1 
+    AW += 3
+    return AW
 
 def RR(n, processes, quantum, core):
     arrival_time = [p[1] for p in processes]
     burst_time = [p[2] for p in processes]
+    if core == "P":
+         new_burst_time = []
+         for num in burst_time:
+             new_burst_time.append(math.ceil(num/2))
+
+         burst_time = new_burst_time
+
     remaining_time = burst_time.copy()
     waiting_time = [0] * n
     turnaround_time = [0] * n
@@ -13,26 +34,22 @@ def RR(n, processes, quantum, core):
     current_time = 0
     completed = 0
     index = 0
-    AW=0
-    onoff=0
     
     ready_queue.append(index)
     index += 1
 
     graph = []
 
-    if(core[sunseo] == "P"):
-        for i in range(n):
-            processes[i][2] = round(processes[i][2])
-
+    AW=0
+    onoff=0
+    
     while completed < n:
 
         if(completed==0):
-            if(core[0] == "E"):            #전력량 계산
+            if(core == "E"):            #전력량 계산
                 AW = Ecore(AW,onoff)
-            elif(core[0] == "P"):
+            elif(core == "P"):
                 AW = Pcore(AW,onoff)
-
 
         current_process = ready_queue.popleft()
         if remaining_time[current_process] <= quantum:
@@ -58,28 +75,27 @@ def RR(n, processes, quantum, core):
         
         if remaining_time[current_process] > 0:
             ready_queue.append(current_process)
-
-        if(completion_time != processes[completed][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
-            onoff = 0
-        if(core[0] == "E"):            #전력량 계산
-            AW = Ecore(AW,onoff)
-        elif(core[0] == "P"):
-            AW = Pcore(AW,onoff)
-
-
+        
         for i in range(n):
             waiting_time[i] = turnaround_time[i] - burst_time[i]
+
+        if(completion_time != processes[completed][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
+           onoff = 0
+        if(core == "E"):            #전력량 계산
+            AW = Ecore(AW,onoff)
+        elif(core == "P"):
+            AW = Pcore(AW,onoff)
     results = []
+    AW = round(AW,2)
     for i in range(n):
-        results.append((processes[i][0], arrival_time[i], burst_time[i], waiting_time[i], turnaround_time[i], normalized_turnaround_time[i]))
-    results.append(AW)
+        results.append((processes[i][0], arrival_time[i], processes[i][2], waiting_time[i], turnaround_time[i], normalized_turnaround_time[i]))
+    processes.append(AW)
     results.append(graph)
     return results
 
 n = 5
 q = 3
 processes = [["p1", 0, 3], ["p2", 1, 7], ["p3", 3, 2], ["p4", 5, 5], ["p5", 6, 3]]
-cores = ['P-core', 'P-core', 'E-core', 'E-core']
-a = RR(n, processes, q, cores)
+cores = ["P", "E", "P", "E"]
+a = RR(n, processes, q, cores[0])
 print(a)
-
