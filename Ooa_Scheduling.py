@@ -1,14 +1,38 @@
 import math
+<<<<<<< HEAD
+=======
+def Ecore(AW, onoff):
+    if onoff == 0: 
+        AW += 0.1
+        onoff = 1
+    AW += 1
+    return AW
+
+def Pcore(AW, onoff):
+    if onoff == 0:
+       AW += 0.5
+       onoff = 1 
+    AW += 3
+    return AW
+>>>>>>> 8cd2560df15e1dbfde4e5e4d5d6de327eaf59ac5
 
 def OOA(n, processes, quantum, core):
     arrival_time = [p[1] for p in processes]
     burst_time = [p[2] for p in processes]
     if core == "P":
+<<<<<<< HEAD
         new_burst_time = []
         for num in burst_time:
             new_burst_time.append(math.ceil(num/2))
 
         burst_time = new_burst_time
+=======
+         new_burst_time = []
+         for num in burst_time:
+             new_burst_time.append(math.ceil(num/2))
+
+         burst_time = new_burst_time
+>>>>>>> 8cd2560df15e1dbfde4e5e4d5d6de327eaf59ac5
 
     remaining_time = burst_time.copy()
     waiting_time = [0] * n
@@ -22,8 +46,18 @@ def OOA(n, processes, quantum, core):
     
     result = []
     graph = []
+
+    AW=0
+    onoff=0
     
     while completed < n:
+
+        if(completed==0):
+            if(core == "E"):            #전력량 계산
+                AW = Ecore(AW,onoff)
+            elif(core == "P"):
+                AW = Pcore(AW,onoff)
+
         # Add new processes to the ready queue
         for i in range(n):
             if arrival_time[i] <= current_time and i not in ready_queue and remaining_time[i] > 0:
@@ -48,7 +82,14 @@ def OOA(n, processes, quantum, core):
             if response_ratio > max_priority:
                 max_priority = response_ratio
                 highest_response_ratio_index = i
-        
+
+        if(completion_time != processes[completed][1]): #연속적으로 사용되지 않으면 off - 완료시간 != 입력된 시간
+           onoff = 0
+        if(core == "E"):            #전력량 계산
+            AW = Ecore(AW,onoff)
+        elif(core == "P"):
+            AW = Pcore(AW,onoff)
+
         current_process = ready_queue[highest_response_ratio_index]
         
         if remaining_time[current_process] <= quantum:
@@ -74,5 +115,17 @@ def OOA(n, processes, quantum, core):
     # Create result list
     for i in range(n):
         result.append([processes[i][0], processes[i][1], processes[i][2], waiting_time[i], turnaround_time[i], normalized_turnaround_time[i]])
+    AW = round(AW,2)
+    processes.append(AW)    
     result.append(graph)
     return result
+<<<<<<< HEAD
+=======
+
+n = 5
+q = 3
+processes = [["p1", 0, 3], ["p2", 1, 7], ["p3", 3, 2], ["p4", 5, 5], ["p5", 6, 3]]
+cores = ["P", "E", "P", "E"]
+a = OOA(n, processes, q, cores[0])
+print(a)
+>>>>>>> 8cd2560df15e1dbfde4e5e4d5d6de327eaf59ac5
