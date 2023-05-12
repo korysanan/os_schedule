@@ -1,6 +1,15 @@
+import math
+
 def OOA(n, processes, quantum, core):
     arrival_time = [p[1] for p in processes]
     burst_time = [p[2] for p in processes]
+    if core == "P":
+        new_burst_time = []
+        for num in burst_time:
+            new_burst_time.append(math.ceil(num/2))
+
+        burst_time = new_burst_time
+
     remaining_time = burst_time.copy()
     waiting_time = [0] * n
     turnaround_time = [0] * n

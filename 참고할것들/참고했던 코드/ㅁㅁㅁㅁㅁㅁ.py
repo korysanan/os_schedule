@@ -507,113 +507,98 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(_translate("MainWindow", "Delete"))
         self.pushButton_4.setText(_translate("MainWindow", "Reset"))
         item = self.tableWidget_4.verticalHeaderItem(0)
-        item.setText(_translate("MainWindow", "1 ~ 20"))
+        item.setText(_translate("MainWindow", "0 ~ 19"))
         item = self.tableWidget_4.verticalHeaderItem(1)
-        item.setText(_translate("MainWindow", "21 ~ 40"))
+        item.setText(_translate("MainWindow", "20 ~ 39"))
         item = self.tableWidget_4.verticalHeaderItem(2)
-        item.setText(_translate("MainWindow", "41 ~ 60"))
+        item.setText(_translate("MainWindow", "40 ~ 59"))
         item = self.tableWidget_4.verticalHeaderItem(3)
-        item.setText(_translate("MainWindow", "61 ~ 80"))
+        item.setText(_translate("MainWindow", "60 ~ 79"))
         item = self.tableWidget_4.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "1"))
+        item.setText(_translate("MainWindow", "0"))
         item = self.tableWidget_4.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "2"))
+        item.setText(_translate("MainWindow", "1"))
         item = self.tableWidget_4.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "3"))
+        item.setText(_translate("MainWindow", "2"))
         item = self.tableWidget_4.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "4"))
+        item.setText(_translate("MainWindow", "3"))
         item = self.tableWidget_4.horizontalHeaderItem(4)
-        item.setText(_translate("MainWindow", "5"))
+        item.setText(_translate("MainWindow", "4"))
         item = self.tableWidget_4.horizontalHeaderItem(5)
-        item.setText(_translate("MainWindow", "6"))
+        item.setText(_translate("MainWindow", "5"))
         item = self.tableWidget_4.horizontalHeaderItem(6)
-        item.setText(_translate("MainWindow", "7"))
+        item.setText(_translate("MainWindow", "6"))
         item = self.tableWidget_4.horizontalHeaderItem(7)
-        item.setText(_translate("MainWindow", "8"))
+        item.setText(_translate("MainWindow", "7"))
         item = self.tableWidget_4.horizontalHeaderItem(8)
-        item.setText(_translate("MainWindow", "9"))
+        item.setText(_translate("MainWindow", "8"))
         item = self.tableWidget_4.horizontalHeaderItem(9)
-        item.setText(_translate("MainWindow", "10"))
+        item.setText(_translate("MainWindow", "9"))
         item = self.tableWidget_4.horizontalHeaderItem(10)
-        item.setText(_translate("MainWindow", "11"))
+        item.setText(_translate("MainWindow", "10"))
         item = self.tableWidget_4.horizontalHeaderItem(11)
-        item.setText(_translate("MainWindow", "12"))
+        item.setText(_translate("MainWindow", "11"))
         item = self.tableWidget_4.horizontalHeaderItem(12)
-        item.setText(_translate("MainWindow", "13"))
+        item.setText(_translate("MainWindow", "12"))
         item = self.tableWidget_4.horizontalHeaderItem(13)
-        item.setText(_translate("MainWindow", "14"))
+        item.setText(_translate("MainWindow", "13"))
         item = self.tableWidget_4.horizontalHeaderItem(14)
-        item.setText(_translate("MainWindow", "15"))
+        item.setText(_translate("MainWindow", "14"))
         item = self.tableWidget_4.horizontalHeaderItem(15)
-        item.setText(_translate("MainWindow", "16"))
+        item.setText(_translate("MainWindow", "15"))
         item = self.tableWidget_4.horizontalHeaderItem(16)
-        item.setText(_translate("MainWindow", "17"))
+        item.setText(_translate("MainWindow", "16"))
         item = self.tableWidget_4.horizontalHeaderItem(17)
-        item.setText(_translate("MainWindow", "18"))
+        item.setText(_translate("MainWindow", "17"))
         item = self.tableWidget_4.horizontalHeaderItem(18)
-        item.setText(_translate("MainWindow", "19"))
+        item.setText(_translate("MainWindow", "18"))
         item = self.tableWidget_4.horizontalHeaderItem(19)
-        item.setText(_translate("MainWindow", "20"))                
+        item.setText(_translate("MainWindow", "19"))                
 
     def add_row(self):
-        #프로세스 이름, 도착시간, 실행시간 입력 함수
-
         processor_name = self.lineEdit.text()
         at = self.lineEdit_2.text()
         workload = self.lineEdit_3.text()
-        # 프로세스 이름, 도착시간, 실행시간을 ineEdit_3.text()에서 가지고 온다.
 
         if not all([processor_name, at, workload]):
             return
-        # 입력하는게 하나라도 비어있으면 입력을 받지 않음
 
+        # 테이블 위젯에 행 추가
         row_position = self.tableWidget_2.rowCount()
-        # tableWidget_2의 행 수를 반환함
         self.tableWidget_2.insertRow(row_position)
-        #row_position에 지정된 위치에 새로운 행(row)을 삽입
 
+        # 입력받은 값으로 셀 채우기
         self.tableWidget_2.setItem(row_position, 0, QTableWidgetItem(processor_name))
         self.tableWidget_2.setItem(row_position, 1, QTableWidgetItem(at))
         self.tableWidget_2.setItem(row_position, 2, QTableWidgetItem(workload))
-        # 입력받은 값으로 셀 채우기
 
+        # 라인 에디트 초기화
         self.lineEdit.clear()
         self.lineEdit_2.clear()
         self.lineEdit_3.clear()
-        # 라인 에디트 초기화
     
     def delete_row(self):
-        # 입력 부분 1개 행 삭제
         row_count = self.tableWidget_2.rowCount()
         if row_count > 0:
             self.tableWidget_2.removeRow(row_count - 1)
-        # row_count를 1줄여서 삭제
     
     def reset(self):
-        # 입력 부분 전체 행 삭제
         self.tableWidget_2.clearContents()
-        # 테이블 위젯의 셀(Cell)에 있는 데이터를 모두 지움
         self.tableWidget_2.setRowCount(0)
-        # 테이블 위젯의 행(row) 수를 0으로 설정
 
     def run(self):
-        # 위에서 입력 받은 값을 이용하여 각 알고리즘을 계산
+        global core_num
         core_num = []
         #각 코어 눌렀을때, OFF나 해당 코어이름 반환
         def radioButtonClicked(self):
-            # UI상에서 core0부분이 체크 되있을때
             core = ""
             if self.radioButton.isChecked():
-                # UI상에서 off쪽이 체크 되있을때
                 core = "OFF"
             elif self.Process1.isChecked():
-                # UI상에서 P-Core 쪽이 체크 되있을때
                 core = "P-Core"
             elif self.Process1_2.isChecked():
-                # UI상에서 P-Core 쪽이 체크 되있을때
                 core = "E-Core"
             return core
-            # core 값을 반환
 
         def radioButtonClicked2(self):
             core2 = ""
@@ -644,15 +629,13 @@ class Ui_MainWindow(object):
             elif self.Process1_8.isChecked():
                 core4 = "E-Core"
             return core4
-        #위에 코드는 core0일때와 기능은 같음
-
+        
         if radioButtonClicked(self) == "OFF":
             core_num.append("O")
         elif radioButtonClicked(self) == "P-Core":
             core_num.append("P")
         elif radioButtonClicked(self) == "E-Core":
             core_num.append("E")
-        # core0 부분에서 OFF를 체크했을 때는 core_num 리스트에 O를, P-Core에 체크했을 때는 리스트에 P를, E-Core에 체크했을 때는 리스트에 E를 삽입
 
         if radioButtonClicked2(self) == "OFF":
             core_num.append("O")
@@ -674,60 +657,58 @@ class Ui_MainWindow(object):
             core_num.append("P")
         elif radioButtonClicked4(self) == "E-Core":
             core_num.append("E")
-        
-        #위 코드들은 위와 기능이 같기에 생략
 
         if self.tableWidget_3.rowCount() > 0:
             self.tableWidget_3.clearContents()
             self.tableWidget_3.setRowCount(0)
-        # tableWidget_3의 행 수가 0보다 크면 모든 셀에 있는 데이터를 지우고, 행의 수를 0으로 설정
+
         rowcount = self.tableWidget_2.rowCount()
-        # tableWidget_2에서 행의 수
         p = []
-        # 프로세스들의 정보를 받을 리스트
         result = []
-        #결과값 리스트
         q = self.spinBox.value()
-        # UI상에서 RR 값 체크받은 값 가져오기
-
-        color = ["Red", "Skyblue", "Pink", "Orange",
-                "Yellow", "Purple", "Blue", "Gray",
-                "Green", "Beige", "Indigo", "Navy",
-                "Crimson", "Brown", "Silver"]
-        # tableWidget_3, 4에서 배경화면으로 칠할 색 선언
-
+        
         for row in range(0,rowcount):
             name = self.tableWidget_2.item(row,0)
             text1 = self.tableWidget_2.item(row,1)
             text2 = self.tableWidget_2.item(row,2)
             p.append([name.text(),int(text1.text()), int(text2.text())])
-        # p에다가 프로세스이름, 도착시간, 실행시간을 삽입
 
+        color = {}
+        for i in range(len(p)):
+            color[p[i][0]] = ["Red", "Skyblue", "Pink", "Orange",
+                            "Yellow", "Purple", "Blue", "Gray",
+                            "Green", "Beige", "Indigo", "Navy",
+                            "Crimson", "Brown", "Silver"][i % 15]
+##작업 중인 코드 - 색 칠하는 거
         if self.tableWidget.rowCount() > 0:
             self.tableWidget.clearContents()
             self.tableWidget.setRowCount(0)
-        # 행의 수가 0보다 크면, 테이블 위젯의 모든 셀에 있는 데이터 지우고, 행의 수를 0으로 설정
+
+        color = {
+            p[i][0]: "Red" if i == 0 else "Skyblue" if i == 1 else "Pink" if i == 2 else
+                    "Orange" if i == 3 else "Yellow" if i == 4 else "Purple" if i == 5 else
+                    "Blue" if i == 6 else "Gray" if i == 7 else "Green" if i == 8 else
+                    "Beige" if i == 9 else "Indigo" if i == 10 else "Navy" if i == 11 else
+                    "Crimson" if i == 12 else "Brown" if i == 13 else "Silver"
+            for i in range(len(p))
+        }
 
         for i in range(self.tableWidget.rowCount()):
             for j in range(self.tableWidget.columnCount()):
                 item = self.tableWidget.item(i, j)
                 if item:
                     item.setBackground(QBrush(QColor(255, 255, 255)))
-        # 기존에 남아있을 배경색을 다음을 위해 하얀색으로 초기화
 
         for idx, proc in enumerate(p):
             self.tableWidget.insertRow(idx)
             name_item = QtWidgets.QTableWidgetItem(proc[0])
             self.tableWidget.setVerticalHeaderItem(idx, name_item)
-        # 리스트 p의 각 항목(proc)에 대해, 
-        # 해당 항목을 테이블 위젯의 새로운 행으로 추가하고, 
-        # 그 행의 첫 번째 열에는 해당 항목의 이름(proc[0])을 설정
 
             for i in range(1, self.tableWidget.columnCount()):
                 item = QtWidgets.QTableWidgetItem('')
                 item.setBackground(QBrush(QColor(255, 255, 255)))
                 self.tableWidget.setItem(idx, i, item)
-        # 배경을 흰색으로 설정
+
             start_col = proc[1]
             end_col = proc[1] + proc[2] - 1
             for i in range(start_col, end_col+1):
@@ -735,21 +716,17 @@ class Ui_MainWindow(object):
                 if not item:
                     item = QtWidgets.QTableWidgetItem('')
                     self.tableWidget.setItem(idx, i, item)
-                row_index = item.row()
-                item.setBackground(QBrush(QColor(color[row_index % len(color)])))
-        # 시작 열(proc[1])부터 끝 열(proc[1]+proc[2]-1)까지의 범위에 대해, 
-        # 해당 범위 내의 각 열의 QTableWidgetItem 객체를 가져와 배경색상을 설정
-        # 만약 해당 셀에 이미 QTableWidgetItem 객체가 있는 경우에는 그 객체를 가져와 배경색상을 설정하고,
-        # 아닌 경우에는 새로운 QTableWidgetItem 객체를 생성하여 배경색상을 설정함
+                item.setBackground(QBrush(QColor(color[proc[0]])))
+
+## 여기까지 작업중 - 색칠하는거       
         list_text = self.comboBox.currentText()
-        # UI상 Algorithm을 고르는 박스에서 고른 텍스트를 받아옴
 
         if list_text == "Our Own Algorithm" :
             if q == 0:
                 return
             result = Ooa_Scheduling.OOA(self.tableWidget_2.rowCount(), p, q, core_num[0])
         elif list_text == "FCFS" :
-            result = FCFS_Scheduling.FCFS(self.tableWidget_2.rowCount(), p, core_num[0])
+            result = FCFS_Scheduling.FCFS(self.tableWidget_2.rowCount(), p, core_num)
         elif list_text == "RR" :
             if q == 0:
                 return 
@@ -759,123 +736,65 @@ class Ui_MainWindow(object):
         elif list_text == "SRTN" :
             result = SRTN_Scheduling.SRTN(self.tableWidget_2.rowCount(), p, core_num[0])
         elif list_text == "HRRN" :
-            result = HRRN_Scheduling.HRRN(self.tableWidget_2.rowCount(), p, core_num[0]) 
+            result = HRRN_Scheduling.HRRN(self.tableWidget_2.rowCount(), p, core_num) 
 
-        # 자신이 UI상에서 체크한 Algorithm에 해당하는 파이썬 파일을 실행해서 계산한 결과값을 result에 받아옴
-        if core_num[0] == "O":
-            for i in range(self.tableWidget_4.rowCount()):
-                for j in range(self.tableWidget_4.columnCount()):
-                    item = QtWidgets.QTableWidgetItem('')
-                    item.setBackground(QBrush(QColor(255, 255, 255)))
-                    self.tableWidget_4.setItem(i, j, item)
-        # core가 off이면 tableWidget_4(알고리즘으로 계산해서 Gantt chart로 나타내는 위젯)의 배경색을 하얀색으로 초기화
-        else :
-        # core가 P-core or E-core이면 
-            l = len(result)
-        # l = result의 길이
-            for r in range(0,(l-1)):
-                row_position = self.tableWidget_3.rowCount()
-                self.tableWidget_3.insertRow(row_position)
-                self.tableWidget_3.setItem(row_position, 0, QTableWidgetItem(str(result[r][0])))
-                self.tableWidget_3.setItem(row_position, 1, QTableWidgetItem(str(result[r][1])))
-                self.tableWidget_3.setItem(row_position, 2, QTableWidgetItem(str(result[r][2])))
-                self.tableWidget_3.setItem(row_position, 3, QTableWidgetItem(str(result[r][3])))
-                self.tableWidget_3.setItem(row_position, 4, QTableWidgetItem(str(result[r][4])))
-                self.tableWidget_3.setItem(row_position, 5, QTableWidgetItem(str(round(result[r][4]/result[r][2],1))))
-        # 프로세스이름, 도착시간, 실행기간, 대기시간, turnaround_time, normalized_turnaround_time을 tableWidget_3에 저장
-            #self.label_8.setNum(result[self.tableWidget_2.rowCount()][0])
-            
-            color_dict = {}
-            z = 0
+        l = len(result)
+        for r in range(0, l - 4):
+            row_position = self.tableWidget_3.rowCount()
+            self.tableWidget_3.insertRow(row_position)
+            self.tableWidget_3.setItem(row_position, 0, QTableWidgetItem(str(result[r][0])))
+            self.tableWidget_3.setItem(row_position, 1, QTableWidgetItem(str(result[r][1])))
+            self.tableWidget_3.setItem(row_position, 2, QTableWidgetItem(str(result[r][2])))
+            self.tableWidget_3.setItem(row_position, 3, QTableWidgetItem(str(result[r][3])))
+            self.tableWidget_3.setItem(row_position, 4, QTableWidgetItem(str(result[r][4])))
+            self.tableWidget_3.setItem(row_position, 5, QTableWidgetItem(str(round(result[r][4]/result[r][2],1))))
+        
+        color = {}
+        for i in range(len(p)):
+            color[p[i][0]] = ["Red", "Skyblue", "Pink", "Orange",
+                            "Yellow", "Purple", "Blue", "Gray",
+                            "Green", "Beige", "Indigo", "Navy",
+                            "Crimson", "Brown", "Silver"][i % 15]
 
-            for i in range(self.tableWidget_4.rowCount()):
-                for j in range(self.tableWidget_4.columnCount()):
-                    item = QtWidgets.QTableWidgetItem('')
-                    item.setBackground(QBrush(QColor(255, 255, 255)))
-                    self.tableWidget_4.setItem(i, j, item)
-        # tableWidget_4(알고리즘으로 계산해서 Gantt chart로 나타내는 위젯)의 배경색을 하얀색으로 초기화
+        z = 0
 
+        for i in range(self.tableWidget_4.rowCount()):
+            for j in range(self.tableWidget_4.columnCount()):
+                item = QtWidgets.QTableWidgetItem('')
+                item.setBackground(QBrush(QColor(255, 255, 255)))
+                self.tableWidget_4.setItem(i, j, item)
+
+        if l > 5:
+            for i in range(4):
+                for item in result[-(4-i)]:
+                    if len(p) > 0:
+                        if item not in color:
+                            color[item] = color[p[z % len(p)][0]]
+                            z += 1
+                        else:
+                            color[item] = color[item]
+
+                for u in range(len(result[-(4-i)])):
+                    row_position = self.tableWidget_4.rowCount()
+                    item = QTableWidgetItem(result[-(4-i)][u])
+                    item.setBackground(QColor(color[result[-(4-i)][u]]))
+                    item.setText('')
+                    self.tableWidget_4.setItem(i, u, item)
+        else:
             for item in result[-1]:
-                if item not in color_dict:
-                    color_dict[item] = color[z % len(color)]
+                if item not in color:
+                    color[item] = color[p[z % len(p)][0]]
                     z += 1
-            # result[-1]의 각 항목에 대해 색상 딕셔너리(color_dict)에 그 항목이 포함되어 있는지 확인
-            # 만약 포함되어 있지 않다면, 새로운 색상을 color 리스트에서 가져와서 해당 항목의 색상으로 지정
+
             for u in range(len(result[-1])):
                 row_position = self.tableWidget_4.rowCount()
                 item = QTableWidgetItem(result[-1][u])
-                item.setBackground(QColor(color_dict[result[-1][u]]))
+                item.setBackground(QColor(color[result[-1][u]]))
                 item.setText('')
                 self.tableWidget_4.setItem(0, u, item)
-            # result[-1]의 각 항목을 반복하면서, 
-            # QTableWidgetItem 객체를 만들어 해당 셀의 배경색상을 color_dict에서 가져온 색상으로 설정하고, 
-            # 셀에는 아무런 텍스트를 설정하지 않음 마지막으로, 
-            # 해당 QTableWidgetItem 객체를 tableWidget_4의 적절한 위치에 삽입
-            P_start = 0.5
-            E_start = 0.1
-            #해당 코어 확인차 Total 뭐시기 텍스트 변환 - 응용 예정
-            if radioButtonClicked(self) == "OFF":
-                core_num.append("O")
-                ans1 = 0
-                self.label_8.setText("")
-            elif radioButtonClicked(self) == "P-Core":
-                core_num.append("P")
-                for ux in range(l-1):
-                    ans1 = P_start + 3 * result[r][2]
-                self.label_8.setText(str(ans1) + "W")
-            elif radioButtonClicked(self) == "E-Core":
-                core_num.append("E")
-                for ux in range(l-1):
-                    ans1 = E_start + result[r][2]
-                self.label_8.setText(str(ans1) + "W")
 
-            if radioButtonClicked2(self) == "OFF":
-                core_num.append("O")
-                ans2 = 0
-                self.label_9.setText("")
-            elif radioButtonClicked2(self) == "P-Core":
-                core_num.append("P")
-                for ux2 in range(l-1):
-                    ans2 = P_start + 3 * result[r][2]
-                self.label_9.setText(str(ans2) + "W")
-            elif radioButtonClicked2(self) == "E-Core":
-                core_num.append("E")
-                for ux2 in range(l-1):
-                    ans2 = E_start + result[r][2]
-                self.label_9.setText(str(ans2) + "W")
 
-            if radioButtonClicked3(self) == "OFF":
-                core_num.append("O")
-                ans3 = 0
-                self.label_10.setText("")
-            elif radioButtonClicked3(self) == "P-Core":
-                core_num.append("P")
-                for ux3 in range(l-1):
-                    ans3 = P_start + 3 * result[r][2]
-                self.label_10.setText(str(ans3) + "W")
-            elif radioButtonClicked3(self) == "E-Core":
-                core_num.append("E")
-                for ux3 in range(l-1):
-                    ans3 = E_start + result[r][2]
-                self.label_10.setText(str(ans3) + "W")
 
-            if radioButtonClicked4(self) == "OFF":
-                core_num.append("O")
-                ans4 = 0
-                self.label_11.setText("")
-            elif radioButtonClicked4(self) == "P-Core":
-                core_num.append("P")
-                for ux4 in range(l-1):
-                    ans4 = P_start + 3 * result[r][2]
-                self.label_11.setText(str(ans4) + "W")
-            elif radioButtonClicked4(self) == "E-Core":
-                core_num.append("E")
-                for ux4 in range(l-1):
-                    ans4 = E_start + result[r][2]
-                self.label_11.setText(str(ans4) + "W")
-            
-            ans = ans1 + ans2 + ans3 + ans4
-            self.label_4.setText("TPC : " + str(ans) + "W")
 
 if __name__ == "__main__":
     import sys
