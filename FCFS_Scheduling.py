@@ -18,14 +18,14 @@ def FCFS(n, processes, core) :
     for i in range(n):
         # 실행 순서
         if i == 0:
-            completion_time[i] = processes[i][1] + burst_time[i]
+            completion_time[i] = processes[i][1] + burst_time[i] # 처음 들어온 프로세스의 CT = AT + BT
         else:
-            completion_time[i] = completion_time[i-1] + burst_time[i]
+            completion_time[i] = completion_time[i-1] + burst_time[i] # 그 외의 프로세스 CT = 전 프로세스CT + 현 프로세스BT
 
-        waiting_time[i] = completion_time[i] - processes[i][1] - burst_time[i]
+        waiting_time[i] = completion_time[i] - processes[i][1] - burst_time[i]  # WT = CT - AT - BT
 
-        turnaround_time[i] = completion_time[i] - processes[i][1]
-        processes[i]=processes[i]+[waiting_time[i],turnaround_time[i]]
+        turnaround_time[i] = completion_time[i] - processes[i][1]   # i번째 TT = CT - AT
+        processes[i]=processes[i]+[waiting_time[i],turnaround_time[i]]  # 각 프로세스 이름과 WT, TT를 processes에 append
         for a in range(turnaround_time[i] - waiting_time[i]):
             graph.append(processes[i][0])
     processes.sort(key=lambda x: x[0])
