@@ -22,10 +22,10 @@ def FCFS(n, processes, core) :
         else:
             completion_time[i] = completion_time[i-1] + burst_time[i] # 그 외의 프로세스 CT = 전 프로세스CT + 현 프로세스BT
 
-        waiting_time[i] = completion_time[i] - processes[i][1] - burst_time[i]  # WT = CT - AT - BT
+        waiting_time[i] = completion_time[i] - processes[i][1] - burst_time[i]  # i번째 WT = i번째 CT - i번째 AT - i번째 BT
 
         turnaround_time[i] = completion_time[i] - processes[i][1]   # i번째 TT = CT - AT
-        processes[i]=processes[i]+[waiting_time[i],turnaround_time[i]]  # 각 프로세스 이름과 WT, TT를 processes에 append
+        processes[i]=processes[i]+[waiting_time[i],turnaround_time[i]]  # 각 i번째 프로세스 이름과 WT, TT를 i번째 processes에 append
         for a in range(turnaround_time[i] - waiting_time[i]):
             graph.append(processes[i][0])
     processes.sort(key=lambda x: x[0])
